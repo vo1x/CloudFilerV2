@@ -1,7 +1,16 @@
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { FiVideo, FiFolder, FiCopy, FiInfo } from 'react-icons/fi';
+import {
+  FiVideo,
+  FiFolder,
+  FiCopy,
+  FiInfo,
+  FiArrowDown,
+  FiChevronDown,
+  FiChevronUp
+} from 'react-icons/fi';
 import EmbedCode from './EmbedCode';
+import { useCallback, useState } from 'react';
 function Result(props) {
   const handleItemCopy = (type, item) => {
     navigator.clipboard.writeText(item).then(() => {
@@ -24,18 +33,33 @@ function Result(props) {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   };
 
+  const [isExpanded, setIsExpanded] = useState(true);
+
+  const toggleIsExpanded = useCallback(() => {
+    setIsExpanded((isExpanded) => !isExpanded);
+  }, []);
+
   return (
     <>
       <div className=" flex flex-col gap-5 p-5">
-        <div className="h-max  rounded-md border border-white/20 bg-white/5 p-3">
-          <div className=" mb-3 flex items-center justify-between border-b border-b-white/20 p-2 text-lg">
+        <div className="relative h-max rounded-md border border-white/20 bg-white/5 p-3">
+          <div className="flex items-center justify-between p-2">
+            <span className="text-xl font-bold">Folder Information</span>
+            <button onClick={toggleIsExpanded} className="text-2xl">
+              {!isExpanded ? <FiChevronDown /> : <FiChevronUp />}
+            </button>
+          </div>
+
+          <div className="mb-3  flex items-center justify-between border-b border-b-white/20 p-2 text-lg">
             <span>
               {' '}
               Found <span className="font-bold">{props.data.length}</span> Files
             </span>
             <span className="text-sm text-white/50">Files are sorted by name</span>
           </div>
-          <ul className="gap grid max-h-96 grid-flow-row gap-3 overflow-auto p-3">
+          <ul
+            className={`gap grid max-h-96 grid-flow-row gap-3 overflow-auto p-3 ${isExpanded ? '' : 'hidden'} `}
+          >
             {props.data.map((data) => (
               <li key={data.id} className="rounded-md border border-white/20 bg-white/5 p-4">
                 <div>
