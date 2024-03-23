@@ -53,24 +53,18 @@ function EmbedCode(props) {
       `[maxbutton id="2" url="${episode.webContentLink}" text="Episode ${index + 1}" ]`
   );
 
-  const getReadableFO = (bytes) => {
-    if (bytes === 0) return { size: 0, unit: 'Bytes' };
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    const size = parseFloat((bytes / Math.pow(k, i)).toFixed(2));
-    const unit = sizes[i];
-    return { size, unit };
-  };
+  var totalSz = filteredEpisodesList.reduce((acc, epi) => {
+    console.log(epi.size);
+    acc += parseInt(epi.size);
+    console.log(acc);
+    return acc;
+  }, 0);
 
-  var totalSize = filteredEpisodesList.reduce((accumulator, epi) => accumulator + epi.size, 0);
-  const sizeObject = getReadableFO(totalSize);
-  var averageSize = parseFloat(sizeObject.size / filteredEpisodesList.length).toFixed(2);
-  console.log(averageSize);
+  console.log('totalsize:', parseInt(totalSz));
 
   const seriesString =
     `\n<p style="text-align: center;">[mks_separator style="solid" height="5"]</p>` +
-    `\n<p style="text-align: center;"><span style="color: #000000;"><strong>${filteredEpisodesList[0].name.slice(0, -4).replace(/(S\d+)\s*E\d+/, '$1')}\n[<span style="color: #ff0000;">${averageSize} GB/E</span>]</strong></span></p>\n` +
+    `\n<p style="text-align: center;"><span style="color: #000000;"><strong>${filteredEpisodesList[0].name.slice(0, -4).replace(/(S\d+)\s*E\d+/, '$1')}\n[<span style="color: #ff0000;">${getReadableFS(totalSz / filteredEpisodesList.length)}/<span style="color: #0000ff;">E</span></span>]</strong></span></p>\n` +
     `<p style="text-align: center;"> ${episodesList.join(' ')} </p>` +
     `\n<p style="text-align: center;">[mks_separator style="solid" height="5"]</p>\n`;
   const [isPreviewEnabled, setIsPreviewEnabled] = useState(false);
