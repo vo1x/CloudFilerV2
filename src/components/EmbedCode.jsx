@@ -70,7 +70,7 @@ function EmbedCode(props) {
 
   const seriesString =
     `\n<p style="text-align: center;">[mks_separator style="solid" height="5"]</p>` +
-    `\n<p style="text-align: center;"><span style="color: #000000;"><strong>${filteredEpisodesList[0].name}\n[<span style="color: #ff0000;">${averageSize} GB/E</span>]</strong></span></p>\n` +
+    `\n<p style="text-align: center;"><span style="color: #000000;"><strong>${filteredEpisodesList[0].name.slice(0, -4).replace(/(S\d+)\s*E\d+/, '$1')}\n[<span style="color: #ff0000;">${averageSize} GB/E</span>]</strong></span></p>\n` +
     `<p style="text-align: center;"> ${episodesList.join(' ')} </p>` +
     `\n<p style="text-align: center;">[mks_separator style="solid" height="5"]</p>\n`;
   const [isPreviewEnabled, setIsPreviewEnabled] = useState(false);
