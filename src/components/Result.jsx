@@ -39,6 +39,8 @@ function Result(props) {
     setIsExpanded((isExpanded) => !isExpanded);
   }, []);
 
+  
+
   return (
     <>
       <div className=" flex flex-col gap-5 p-5">
