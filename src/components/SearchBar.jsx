@@ -127,7 +127,6 @@ function SearchBar() {
         </div>
         {extractResults.length > 0 && <Result data={extractResults} />}
       </div>
-      <ToastContainer></ToastContainer>
     </>
   );
 }
