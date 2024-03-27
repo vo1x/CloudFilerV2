@@ -96,7 +96,6 @@ function Result(props) {
         </div>
         <EmbedCode data={props.data}></EmbedCode>
       </div>
-      <ToastContainer />
     </>
   );
 }
