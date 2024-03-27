@@ -83,17 +83,47 @@ function SearchBar() {
             }}
             placeholder="Folder URL"
             value={inputValue}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                let folderURL = inputValue;
+                if (folderURL.endsWith('/')) {
+                  folderURL = folderURL.slice(0, -1);
+                } else if (folderURL.endsWith('sharing')) {
+                  folderURL = folderURL.slice(0, folderURL.indexOf('/view?usp=sharing'));
+                }
+                handleExtractButton(folderURL);
+              }
+            }}
           />
           {console.log(inputValue)}
           <button
             onClick={() => {
-              handleExtractButton(inputValue.endsWith('/') ? inputValue.slice(0, -1) : inputValue);
+              let folderURL = inputValue;
+              if (folderURL.endsWith('/')) {
+                folderURL = folderURL.slice(0, -1);
+              } else if (folderURL.endsWith('sharing')) {
+                folderURL = folderURL.slice(0, folderURL.indexOf('/view?usp=sharing'));
+              }
+              handleExtractButton(folderURL);
             }}
             className="flex items-center gap-1 rounded-md bg-blue-600 p-2 py-1 font-bold transition-all duration-300 hover:bg-blue-700"
           >
             {loading ? <FiLoader className=" animate-spin"></FiLoader> : null}
             <span>Extract</span>
           </button>
+          {extractResults.length > 0 ? (
+            <button
+              onClick={() => {
+                setExtractResults([]);
+                setInputValue('');
+                setPrevFolderURL(undefined);
+                setLoading(false);
+              }}
+              className="rounded-md border border-red-500 p-2 py-1 font-bold text-red-500 outline-none transition-all duration-300 hover:bg-red-500 hover:text-white"
+            >
+              <span>Clear</span>
+            </button>
+          ) : null}
         </div>
         {extractResults.length > 0 && <Result data={extractResults} />}
       </div>
