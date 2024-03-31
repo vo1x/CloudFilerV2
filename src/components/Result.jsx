@@ -39,8 +39,6 @@ function Result(props) {
     setIsExpanded((isExpanded) => !isExpanded);
   }, []);
 
-  
-
   return (
     <>
       <div className=" flex flex-col gap-5 p-5">
@@ -94,7 +92,9 @@ function Result(props) {
             ))}
           </ul>
         </div>
-        <EmbedCode data={props.data}></EmbedCode>
+        {props.data.some((file) => file.name.endsWith('.mkv')) && (
+          <EmbedCode data={props.data}></EmbedCode>
+        )}
       </div>
     </>
   );

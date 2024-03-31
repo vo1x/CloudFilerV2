@@ -10,16 +10,8 @@ function SearchBar() {
   const apiKey = import.meta.env.VITE_GDRIVE_API_KEY;
 
   const [inputValue, setInputValue] = useState('');
-  const [prevFolderURL, setPrevFolderURL] = useState(null);
+  const [prevFolderID, setPrevFolderID] = useState(null);
   const handleExtractButton = (folderURL) => {
-    if (folderURL === prevFolderURL) {
-      return toast.warning('Folder already extracted!', {
-        theme: 'colored',
-        autoClose: 2000,
-        position: 'top-right'
-      });
-    }
-
     if (folderURL === '') {
       return toast.error('Folder URL is required', {
         theme: 'colored',
@@ -36,20 +28,22 @@ function SearchBar() {
       });
     }
 
-    const constructAndFetchInfo = (folderURL) => {
-      const parts = folderURL.split('/');
-      const fID = parts[parts.length - 1];
-      console.log(fID);
-      fetchInfo(fID);
-      setPrevFolderURL(folderURL);
-    };
+    const regex = /\/(?:drive\/)?(?:u\/\d+\/)?folders\/([a-zA-Z0-9_-]+)/;
+    const fID = folderURL.match(regex)[1];
+
+    if (fID === prevFolderID) {
+      return toast.warning('Folder already extracted!', {
+        theme: 'colored',
+        autoClose: 2000,
+        position: 'top-right'
+      });
+    }
 
     const fetchInfo = async (folderID) => {
       setLoading(true);
       try {
         const url = `https://www.googleapis.com/drive/v3/files?q='${folderID}'+in+parents&supportsAllDrives=true&includeItemsFromAllDrives=true&pageSize=1000&orderBy=name&fields=files(id,name,size,webContentLink,mimeType)&key=${apiKey}`;
         const response = await fetch(url);
-        console.log(url);
         if (!response.ok) {
           if (response.status === 404) throw new Error('Invalid URL');
           else throw new Error('Failed to fetch data');
@@ -58,17 +52,13 @@ function SearchBar() {
         setExtractResults(data.files);
       } catch (error) {
         toast.error(`${error}`, { theme: 'colored', autoClose: 2000 });
-        setPrevFolderURL('');
+        setPrevFolderID('');
       } finally {
         setLoading(false);
       }
     };
-    constructAndFetchInfo(folderURL);
-  };
-  const handleClearButton = () => {
-    setInputValue('');
-    setExtractResults([]);
-    setPrevFolderURL('');
+
+    fetchInfo(fID).then(() => setPrevFolderID(fID));
   };
 
   return (
@@ -88,21 +78,16 @@ function SearchBar() {
                 let folderURL = inputValue;
                 if (folderURL.endsWith('/')) {
                   folderURL = folderURL.slice(0, -1);
-                } else if (folderURL.endsWith('sharing')) {
-                  folderURL = folderURL.slice(0, folderURL.indexOf('/view?usp=sharing'));
                 }
                 handleExtractButton(folderURL);
               }
             }}
           />
-          {console.log(inputValue)}
           <button
             onClick={() => {
               let folderURL = inputValue;
               if (folderURL.endsWith('/')) {
                 folderURL = folderURL.slice(0, -1);
-              } else if (folderURL.endsWith('sharing')) {
-                folderURL = folderURL.slice(0, folderURL.indexOf('/view?usp=sharing'));
               }
               handleExtractButton(folderURL);
             }}
@@ -116,7 +101,7 @@ function SearchBar() {
               onClick={() => {
                 setExtractResults([]);
                 setInputValue('');
-                setPrevFolderURL(undefined);
+                setPrevFolderID(undefined);
                 setLoading(false);
               }}
               className="rounded-md border border-red-500 p-2 py-1 font-bold text-red-500 outline-none transition-all duration-300 hover:bg-red-500 hover:text-white"

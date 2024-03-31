@@ -29,7 +29,6 @@ function EmbedCode(props) {
 
       notify();
     });
-    console.log(item);
   };
 
   const sortedMovieList = props.data.slice().sort((m1, m2) => m2.size - m1.size);
@@ -43,7 +42,6 @@ function EmbedCode(props) {
         `\n<p style="text-align: center;">[maxbutton id="1" url="${movie.webContentLink}" ]</p>` +
         `\n${index === sortedMovieList.length - 1 ? '<p style="text-align: center;">[mks_separator style="solid" height="5"]</p>' : '<p style="text-align: center;">[mks_separator style="solid" height="2"]</p>'}`
     );
-  console.log(movieString);
   const filteredEpisodesList = props.data.filter(
     (episode) => episode.name.endsWith('.mkv') || episode.name.endsWith('.mp4')
   );
@@ -54,13 +52,9 @@ function EmbedCode(props) {
   );
 
   var totalSz = filteredEpisodesList.reduce((acc, epi) => {
-    console.log(epi.size);
     acc += parseInt(epi.size);
-    console.log(acc);
     return acc;
   }, 0);
-
-  console.log('totalsize:', parseInt(totalSz));
 
   const seriesString =
     `\n<p style="text-align: center;">[mks_separator style="solid" height="5"]</p>` +
