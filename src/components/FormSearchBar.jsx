@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import Result from './Result';
-import { ToastContainer, toast } from 'react-toastify';
+import Result from './FormResult';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FiLoader } from 'react-icons/fi';
+import FormBuilder from '../pages/Form';
 
 function SearchBar() {
   const [extractResults, setExtractResults] = useState([]);
@@ -110,7 +111,7 @@ function SearchBar() {
             </button>
           ) : null}
         </div>
-        {extractResults.length > 0 && <Result data={extractResults} />}
+        {extractResults.length > 0 && <FormBuilder data={extractResults} />}
       </div>
     </>
   );

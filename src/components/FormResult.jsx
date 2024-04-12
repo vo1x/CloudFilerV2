@@ -1,29 +1,22 @@
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {
-  FiVideo,
-  FiFolder,
-  FiCopy,
-  FiInfo,
-  FiArrowDown,
-  FiChevronDown,
-  FiChevronUp
-} from 'react-icons/fi';
-import EmbedCode from './EmbedCode';
+import FormBuilder from '../pages/Form';
+// import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
+import EmbedCode from './FormEmbedCode';
 import { useCallback, useState } from 'react';
 function Result(props) {
-  const handleItemCopy = (type, item) => {
-    navigator.clipboard.writeText(item).then(() => {
-      const notify = () => {
-        toast.success(`${type} copied!`, {
-          theme: 'colored',
-          autoClose: 2000,
-          position: 'bottom-right'
-        });
-      };
-      notify();
-    });
-  };
+  // const handleItemCopy = (type, item) => {
+  //   navigator.clipboard.writeText(item).then(() => {
+  //     const notify = () => {
+  //       toast.success(`${type} copied!`, {
+  //         theme: 'colored',
+  //         autoClose: 2000,
+  //         position: 'bottom-right'
+  //       });
+  //     };
+  //     notify();
+  //   });
+  // };
 
   const getReadableFS = (bytes) => {
     if (bytes === 0) return '0 Bytes';
@@ -33,16 +26,16 @@ function Result(props) {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   };
 
-  const [isExpanded, setIsExpanded] = useState(true);
+  // const [isExpanded, setIsExpanded] = useState(true);
 
-  const toggleIsExpanded = useCallback(() => {
-    setIsExpanded((isExpanded) => !isExpanded);
-  }, []);
+  // const toggleIsExpanded = useCallback(() => {
+  //   setIsExpanded((isExpanded) => !isExpanded);
+  // }, []);
 
   return (
     <>
-      <div className=" flex flex-col gap-5 p-5">
-        <div className="relative h-max rounded-md border border-white/20 bg-white/5 p-3">
+      <div className="mx-10 mt-10 grid grid-cols-3 gap-5">
+        {/* <div className="relative h-max rounded-md border border-white/20 bg-white/5 p-3">
           <div className="flex items-center justify-between p-2">
             <span className="text-xl font-bold">Folder Information</span>
             <button onClick={toggleIsExpanded} className="text-2xl">
@@ -91,10 +84,8 @@ function Result(props) {
               </li>
             ))}
           </ul>
-        </div>
-        {props.data.some((file) => file.name.endsWith('.mkv')) && (
-          <EmbedCode data={props.data}></EmbedCode>
-        )}
+        </div> */}
+        {/* <FormBuilder></FormBuilder> */}
       </div>
     </>
   );

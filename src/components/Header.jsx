@@ -1,5 +1,5 @@
 function Header() {
-  return <div className="flex flex-col mb-4 text-2xl font-bold">Cloudfiler </div>;
+  return <div className="p-5 text-4xl font-bold">Cloudfiler</div>;
 }
 
 export default Header;

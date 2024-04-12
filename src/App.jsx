@@ -1,13 +1,18 @@
 import { ToastContainer } from 'react-toastify';
-import SearchBar from './components/SearchBar';
-import Header from './components/Header';
-import FormBuilder from './components/Form';
+import FormBuilder from './pages/Form';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Indexer from './pages/Indexer';
+import Home from './pages/Home';
 function App() {
   return (
     <>
-      <div className="grid h-[100vh] place-items-center overflow-hidden">
-        <FormBuilder></FormBuilder>
-      </div>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />}></Route>
+          <Route path="/indexer" element={<Indexer />}></Route>
+          <Route path="/builder" element={<FormBuilder></FormBuilder>}></Route>
+        </Routes>
+      </Router>
       <ToastContainer></ToastContainer>
     </>
   );
