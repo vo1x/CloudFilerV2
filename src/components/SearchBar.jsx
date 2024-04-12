@@ -20,7 +20,7 @@ function SearchBar() {
       });
     }
 
-    if (!folderURL.startsWith('https://drive.google.com/drive/')) {
+    if (!folderURL.startsWith('https://drive.google.com/')) {
       return toast.error('Invalid URL format', {
         theme: 'colored',
         autoClose: 2000,
@@ -28,8 +28,21 @@ function SearchBar() {
       });
     }
 
-    const regex = /\/(?:drive\/)?(?:u\/\d+\/)?folders\/([a-zA-Z0-9_-]+)/;
-    const fID = folderURL.match(regex)[1];
+    //https://drive.google.com/file/d/1s72LKrT1-SAtx5tVdXvHxcjR7KO8F_an/view?usp=drive_link
+    const isFileUrl = /(?:\/(?:drive\/)?(?:u\/\d+\/)?file\/d\/[a-zA-Z0-9_-]+\/?)/.test(folderURL);
+    const isFolderUrl = /(?:\/(?:drive\/)?(?:u\/\d+\/)?folders\/[a-zA-Z0-9_-]+\/?)/.test(folderURL);
+
+    var fID = '';
+    var type = '';
+    if (isFileUrl) {
+      const fileRegex = /\/(?:drive\/)?(?:u\/\d+\/)?file\/d\/([a-zA-Z0-9_-]+)/;
+      fID = folderURL.match(fileRegex)[1];
+      type = 'file';
+    } else if (isFolderUrl) {
+      const regexFolder = /\/(?:drive\/)?(?:u\/\d+\/)?folders\/([a-zA-Z0-9_-]+)/;
+      fID = folderURL.match(regexFolder)[1];
+      type = 'folder';
+    }
 
     if (fID === prevFolderID) {
       return toast.warning('Folder already extracted!', {
@@ -42,14 +55,24 @@ function SearchBar() {
     const fetchInfo = async (folderID) => {
       setLoading(true);
       try {
-        const url = `https://www.googleapis.com/drive/v3/files?q='${folderID}'+in+parents&supportsAllDrives=true&includeItemsFromAllDrives=true&pageSize=1000&orderBy=name&fields=files(id,name,size,webContentLink,mimeType)&key=${apiKey}`;
+        var url = '';
+        if (type === 'file') {
+          url = `https://www.googleapis.com/drive/v3/files/${folderID}?supportsAllDrives=true&includeItemsFromAllDrives=true&fields=id,name,size,webContentLink,mimeType&key=${apiKey}`;
+        } else if (type === 'folder') {
+          url = `https://www.googleapis.com/drive/v3/files?q='${folderID}'+in+parents&supportsAllDrives=true&includeItemsFromAllDrives=true&pageSize=1000&orderBy=name&fields=files(id,name,size,webContentLink,mimeType)&key=${apiKey}`;
+        }
         const response = await fetch(url);
         if (!response.ok) {
           if (response.status === 404) throw new Error('Invalid URL');
           else throw new Error('Failed to fetch data');
         }
         const data = await response.json();
-        setExtractResults(data.files);
+        console.log(data);
+        if (type === 'file') {
+          setExtractResults([data]);
+        } else if (type === 'folder') {
+          setExtractResults(data.files);
+        }
       } catch (error) {
         toast.error(`${error}`, { theme: 'colored', autoClose: 2000 });
         setPrevFolderID('');
