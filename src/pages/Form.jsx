@@ -23,7 +23,8 @@ function FormBuilder(props) {
     year: '2024',
     seasonCount: 1,
     quality: '1080p',
-    audioType: 'single',
+    printType: 'Web-DL',
+    audioType: 'Single',
     posterURL: '',
     trailerURL: '',
     fields: fieldsData,
@@ -76,13 +77,18 @@ function FormBuilder(props) {
     }
 
     //https://drive.google.com/file/d/1s72LKrT1-SAtx5tVdXvHxcjR7KO8F_an/view?usp=drive_link
-    const isFileUrl = /(?:\/(?:drive\/)?(?:u\/\d+\/)?file\/d\/[a-zA-Z0-9_-]+\/?)/.test(folderURL);
+    // const isFileUrl = /(?:\/(?:drive\/)?(?:u\/\d+\/)?file\/d\/[a-zA-Z0-9_-]+\/?)/.test(folderURL);
+    const isFileUrl = /(?:\/(?:drive\/)?(?:u\/\d+\/)?(?:file\/d\/|uc\?id=)[a-zA-Z0-9_-]+\/?)/.test(
+      folderURL
+    );
     const isFolderUrl = /(?:\/(?:drive\/)?(?:u\/\d+\/)?folders\/[a-zA-Z0-9_-]+\/?)/.test(folderURL);
 
     var fID = '';
     var type = '';
     if (isFileUrl) {
-      const fileRegex = /\/(?:drive\/)?(?:u\/\d+\/)?file\/d\/([a-zA-Z0-9_-]+)/;
+      // const fileRegex = /\/(?:drive\/)?(?:u\/\d+\/)?file\/d\/([a-zA-Z0-9_-]+)/;
+      const fileRegex = /(?:\/(?:drive\/)?(?:u\/\d+\/)?(?:file\/d\/|uc\?id=))([a-zA-Z0-9_-]+)/;
+
       fID = folderURL.match(fileRegex)[1];
       type = 'file';
     } else if (isFolderUrl) {
@@ -133,16 +139,20 @@ function FormBuilder(props) {
     fetchInfo(fID).then(() => setPrevFolderID((prevFolderID) => [...prevFolderID, fID]));
   };
 
+  const [isCopied, setIsCopied] = useState(false);
   const handleItemCopy = (item) => {
+    setIsCopied(false);
     navigator.clipboard.writeText(item).then(() => {
-      const notify = () => {
-        toast.success(`Field embed code copied!`, {
-          theme: 'colored',
-          autoClose: 2000,
-          position: 'bottom-right'
-        });
-      };
-      notify();
+      // const notify = () => {
+      //   toast.success(`Field embed code copied!`, {
+      //     theme: 'colored',
+      //     autoClose: 2000,
+      //     position: 'bottom-right'
+      //   });
+      // };
+      // notify();
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 2000);
     });
   };
 
@@ -160,9 +170,26 @@ function FormBuilder(props) {
     setIsExpanded((isExpanded) => !isExpanded);
   }, []);
 
+  const [titleKeys, setTitleKeys] = useState({
+    '2160p': false,
+    '4k 10bit': false,
+    '1080p 10bit': false,
+    '1080p': false,
+    x264: false,
+    HEVC: false,
+    'HDR DoVi': false,
+    REMUX: false
+  });
+
+  const handleCheckbox = (e) => {
+    const value = e.target.value;
+    const isChecked = e.target.checked;
+    setTitleKeys((prevStates) => ({ ...prevStates, [value]: isChecked }));
+  };
+
   return (
     <>
-      <div className="grid h-[100vh] place-items-center overflow-hidden">
+      <div className="grid max-h-svh place-items-center overflow-hidden">
         <div className="w-100vw grid grid-cols-3">
           <div className="flex max-h-svh flex-col gap-2 overflow-auto overflow-x-hidden p-5">
             <Header></Header>
@@ -228,6 +255,20 @@ function FormBuilder(props) {
               >
                 <option value="1080p">1080p</option>
                 <option value="2160p">2160p</option>
+              </select>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <label htmlFor="">Print Type</label>
+              <select
+                name=""
+                id=""
+                className="rounded-md bg-neutral-700 p-1 text-sm outline-none"
+                value={formData.printType}
+                onChange={(e) => setFormData({ ...formData, printType: e.target.value })}
+              >
+                <option value="Web-DL">Web-DL</option>
+                <option value="Bluray">Bluray</option>
               </select>
             </div>
 
@@ -306,7 +347,116 @@ function FormBuilder(props) {
               </div>
             </div>
           </div>
-          <div className="col-span-2">
+
+          <div className="col-span-2 flex flex-col gap-3">
+            <div className="relative mr-2 mt-2 flex max-w-5xl flex-col gap-2 overflow-hidden whitespace-normal break-all rounded-md border border-neutral-600 bg-neutral-900 p-2">
+              <span className="text-lg font-bold">
+                {`${formData.title} (${formData.year}) ${formData.contentType === 'series' ? (formData.seasonCount > 1 ? '(Season 1 - ' + formData.seasonCount + ')' : '(Season 1)') : ''} ${formData.audioType} Audio {} ${Object.keys(
+                  titleKeys
+                )
+                  .filter((key) => titleKeys[key])
+                  .join(' || ')} ${formData.printType} Esubs`}
+              </span>
+              <div className="flex items-center gap-2">
+                <div className="flex w-max gap-2 rounded-md bg-neutral-800 p-2">
+                  <div>Tags:</div>
+                  <div>
+                    <input
+                      type="checkbox"
+                      name=""
+                      id=""
+                      value="2160p"
+                      onChange={(e) => handleCheckbox(e)}
+                    />
+                    2160p
+                  </div>
+                  <div>
+                    <input
+                      type="checkbox"
+                      name=""
+                      id=""
+                      value="4k 10bit"
+                      onChange={(e) => handleCheckbox(e)}
+                    />
+                    4k 10bit
+                  </div>
+                  <div>
+                    <input
+                      type="checkbox"
+                      name=""
+                      id=""
+                      value="1080p 10bit"
+                      onChange={(e) => handleCheckbox(e)}
+                    />
+                    1080p 10bit
+                  </div>
+                  <div>
+                    <input
+                      type="checkbox"
+                      name=""
+                      id=""
+                      value="1080p"
+                      onChange={(e) => handleCheckbox(e)}
+                    />
+                    1080p
+                  </div>
+                  <div>
+                    <input
+                      type="checkbox"
+                      name=""
+                      id=""
+                      value="x264"
+                      onChange={(e) => handleCheckbox(e)}
+                    />
+                    x264
+                  </div>
+                  <div>
+                    <input
+                      type="checkbox"
+                      name=""
+                      id=""
+                      value="HEVC"
+                      onChange={(e) => handleCheckbox(e)}
+                    />
+                    HEVC
+                  </div>
+                  <div>
+                    <input
+                      type="checkbox"
+                      name=""
+                      id=""
+                      value="HDR DoVi"
+                      onChange={(e) => handleCheckbox(e)}
+                    />
+                    HDR DoVi
+                  </div>
+                  <div>
+                    <input
+                      type="checkbox"
+                      name=""
+                      id=""
+                      value="REMUX"
+                      onChange={(e) => handleCheckbox(e)}
+                    />
+                    REMUX
+                  </div>
+                </div>
+                <button
+                  onClick={() =>
+                    handleItemCopy(
+                      `${formData.title} (${formData.year}) ${formData.contentType === 'series' ? (formData.seasonCount > 1 ? '(Season 1 - ' + formData.seasonCount + ')' : '(Season 1)') : ''} ${formData.audioType} Audio {} ${Object.keys(
+                        titleKeys
+                      )
+                        .filter((key) => titleKeys[key])
+                        .join(' || ')} ${formData.printType} Esubs`
+                    )
+                  }
+                  className={`flex items-center ${isCopied ? 'bg-green-600' : 'bg-blue-600'} gap-1 rounded-md  p-1 text-sm font-bold transition-all duration-200 ${!isCopied && 'hover:bg-blue-700'}`}
+                >
+                  {isCopied ? 'Copied!' : 'Copy'}
+                </button>
+              </div>
+            </div>
             <EmbedCode formData={formData} fieldsCount={fields.length}></EmbedCode>
           </div>
         </div>

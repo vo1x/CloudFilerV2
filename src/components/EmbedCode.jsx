@@ -43,12 +43,25 @@ function EmbedCode(props) {
         `\n${index === sortedMovieList.length - 1 ? '<p style="text-align: center;">[mks_separator style="solid" height="5"]</p>' : '<p style="text-align: center;">[mks_separator style="solid" height="2"]</p>'}`
     );
   const filteredEpisodesList = props.data.filter(
-    (episode) => episode.name.endsWith('.mkv') || episode.name.endsWith('.mp4')
+    (episode) =>
+      episode.name.endsWith('.mkv') ||
+      episode.name.endsWith('.zip') ||
+      episode.name.endsWith('.tar') ||
+      episode.name.endsWith('.7z') ||
+      episode.name.endsWith('.rar') ||
+      episode.name.endsWith('.mp4')
   );
 
   const episodesList = filteredEpisodesList.map(
     (episode, index) =>
-      `[maxbutton id="2" url="${episode.webContentLink}" text="Episode ${index + 1}" ]`
+      `[maxbutton id="${
+        episode.name.endsWith('.zip') ||
+        episode.name.endsWith('.tar') ||
+        episode.name.endsWith('.7z') ||
+        episode.name.endsWith('.rar')
+          ? '3'
+          : '2'
+      }" url="${episode.webContentLink}" text="Episode ${index + 1}" ]`
   );
 
   var totalSz = filteredEpisodesList.reduce((acc, epi) => {

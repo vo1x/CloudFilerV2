@@ -29,13 +29,17 @@ function SearchBar() {
     }
 
     //https://drive.google.com/file/d/1s72LKrT1-SAtx5tVdXvHxcjR7KO8F_an/view?usp=drive_link
-    const isFileUrl = /(?:\/(?:drive\/)?(?:u\/\d+\/)?file\/d\/[a-zA-Z0-9_-]+\/?)/.test(folderURL);
+    const isFileUrl = /(?:\/(?:drive\/)?(?:u\/\d+\/)?(?:file\/d\/|uc\?id=)[a-zA-Z0-9_-]+\/?)/.test(
+      folderURL
+    );
+
     const isFolderUrl = /(?:\/(?:drive\/)?(?:u\/\d+\/)?folders\/[a-zA-Z0-9_-]+\/?)/.test(folderURL);
 
     var fID = '';
     var type = '';
     if (isFileUrl) {
-      const fileRegex = /\/(?:drive\/)?(?:u\/\d+\/)?file\/d\/([a-zA-Z0-9_-]+)/;
+      const fileRegex = /(?:\/(?:drive\/)?(?:u\/\d+\/)?(?:file\/d\/|uc\?id=))([a-zA-Z0-9_-]+)/;
+
       fID = folderURL.match(fileRegex)[1];
       type = 'file';
     } else if (isFolderUrl) {
