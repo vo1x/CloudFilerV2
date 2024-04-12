@@ -101,14 +101,14 @@ function Field(props) {
         <div className="flex items-center justify-between ">
           <span className="font-bold text-neutral-100">Field {props.fieldIndex} </span>
 
-          <div className="flex items-center gap-2">
+          {/* <div className="flex items-center gap-2">
             <button
               onClick={() => handleCodeCopy(embedString)}
               className="mr-7 text-lg text-neutral-400 transition-all duration-200 hover:text-neutral-100"
             >
               <FiCopy />
             </button>
-          </div>
+          </div> */}
         </div>
         <span className="my-2 border-b border-neutral-500"></span>
 
@@ -117,8 +117,8 @@ function Field(props) {
           {props.data.map((sub, i) => (
             <div className="mb-2 flex justify-center rounded-md border border-neutral-700 bg-neutral-700 p-1 text-sm">
               <div>{sub.name}</div>
-              <span className="mx-2 border border-neutral-500/50"></span>
-              <button
+              {/* <span className="mx-2 border border-neutral-500/50"></span> */}
+              {/* <button
                 className="text-md mr-1 text-neutral-300 hover:text-neutral-100"
                 onClick={() =>
                   handleCodeCopy(
@@ -127,7 +127,7 @@ function Field(props) {
                 }
               >
                 <FiCopy />
-              </button>
+              </button> */}
             </div>
           ))}
         </div>
