@@ -10,7 +10,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Indexer />}></Route>
           {/* <Route path="/indexer" element={<Indexer />}></Route> */}
-          {/* <Route path="/builder" element={<FormBuilder></FormBuilder>}></Route> */}
+          <Route path="/builder" element={<FormBuilder></FormBuilder>}></Route>
         </Routes>
       </Router>
       <ToastContainer></ToastContainer>
