@@ -4,7 +4,7 @@ function Header() {
     <div className="flex w-full max-w-96 items-center justify-between p-3">
       <div className="text-2xl font-bold">Cloudfiler</div>
       <div className="flex items-center gap-3">
-        <Link to={`/indexer`}>
+        <Link to={`/`}>
           <button className="">Indexer</button>
         </Link>
 
