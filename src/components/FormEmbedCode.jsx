@@ -96,14 +96,14 @@ function EmbedCode(props) {
           .map(
             (movie, index) =>
               `${index === 0 ? '\n<p style="text-align: center;">[mks_separator style="solid" height="5"]</p>\n' : '<p style="text-align: center;">[mks_separator style="solid" height="2"]</p>\n'}` +
-              `<p style="text-align: center;"><strong><span style="color: #000000;">${movie.name}</span>` +
+              `<p style="text-align: center;"><strong><span style="color: #000000;">${movie.name.slice(0, -4)}</span>` +
               `\n<span style="color: #000000;">[</span><span style="color: #ff0000;">${getReadableFS(movie.size)}</span><span style="color: #000000;">]</span></strong></p>` +
-              `\n<p style="text-align: center;">[maxbutton id="1" url="${movie.webContentLink}" ]</p>` +
+              `\n<p style="text-align: center;">[maxbutton id="1" url="${movie.webContentLink}"]</p>` +
               `${index === sortedMovieList.length - 1 ? '<p style="text-align: center;">[mks_separator style="solid" height="5"]</p>' : ''}`
           );
         setMoviesPreviewStrings((prevMoviesPreviewStrings) => [
           ...prevMoviesPreviewStrings,
-          movieString
+          movieString.join('')
         ]);
       });
     };
