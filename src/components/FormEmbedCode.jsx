@@ -1,22 +1,11 @@
-import { FiCopy } from 'react-icons/fi';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import { useCallback, useEffect, useState } from 'react';
-import Toggle from 'react-toggle';
-import './ReactToggle.css';
+// import 'react-toastify/dist/ReactToastify.css';
+import { useEffect, useState } from 'react';
+import useFileSize from '../hooks/useFileSize';
 
 function EmbedCode(props) {
-  console.log(props.formData);
-  const getReadableFS = (bytes) => {
-    if (bytes === 0) return '0 Bytes';
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-  };
+  const { getReadableFS } = useFileSize();
 
-  // const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [isCopied, setIsCopied] = useState(false);
   const handleCodeCopy = (item) => {
     try {
@@ -36,23 +25,6 @@ function EmbedCode(props) {
       notify();
     }
   };
-
-  // const sortedMovieList = props.data.slice().sort((m1, m2) => m2.size - m1.size);
-  // const movieString = sortedMovieList
-  //   .filter((movie) => movie.name.endsWith('.mkv') || movie.name.endsWith('.mp4'))
-  //   .map(
-  //     (movie, index) =>
-  //       `${index === 0 ? '\n<p style="text-align: center;">[mks_separator style="solid" height="5"]</p>\n' : ''}` +
-  //       `<p style="text-align: center;"><strong><span style="color: #000000;">${movie.name}</span>` +
-  //       `\n<span style="color: #000000;">[</span><span style="color: #ff0000;">${getReadableFS(movie.size)}</span><span style="color: #000000;">]</span></strong></p>` +
-  //       `\n<p style="text-align: center;">[maxbutton id="1" url="${movie.webContentLink}" ]</p>` +
-  //       `\n${index === sortedMovieList.length - 1 ? '<p style="text-align: center;">[mks_separator style="solid" height="5"]</p>' : '<p style="text-align: center;">[mks_separator style="solid" height="2"]</p>'}`
-  //   );
-
-  const [isPreviewEnabled, setIsPreviewEnabled] = useState(true);
-  // const togglePreview = useCallback(() => {
-  //   setIsPreviewEnabled((isPreviewEnabled) => !isPreviewEnabled);
-  // }, []);
 
   const [seriesPreviewStrings, setSeriesPreviewString] = useState([]);
   const [moviesPreviewStrings, setMoviesPreviewStrings] = useState([]);
@@ -144,53 +116,6 @@ Here you can download <a href="https://uhdmovies.eu/1080p-uhd/"><strong>1080p x2
       >
         {isCopied ? 'Copied!' : 'Copy Embed Code'}
       </button>
-      {/* <span className=" text-center text-3xl font-bold">Embed Code</span>
-      <Tabs>
-        <div className="flex items-center justify-between">
-          <TabList className="my-3 flex w-max rounded-md border border-white/20 bg-white/5 text-sm ">
-            <Tab
-              className={`w-max cursor-pointer rounded-l-md px-5 py-2 ${activeTabIndex === 0 ? 'bg-white text-black' : ''}`}
-              // onClick={() => setActiveTabIndex(0)}
-              key={'movieTab'}
-            >
-              Movie
-            </Tab>
-            <span className="border border-white/20"></span>
-            <Tab
-              className={`w-max cursor-pointer rounded-r-md px-5 py-2 ${activeTabIndex === 1 ? 'bg-white text-black' : ''}`}
-              // onClick={() => setActiveTabIndex(1)}
-              key={'seriesTab'}
-            >
-              Series
-            </Tab>
-          </TabList>
-          <div className="flex items-center gap-1 pr-2 ">
-            <label htmlFor="cheese-status">Embed preview</label>
-
-            <Toggle id="cheese-status" className=" scale-75" onChange={togglePreview} />
-          </div>
-        </div>
-        <div className="w-screen-lg relative max-w-screen-lg rounded-md border border-white/20 bg-white/5">
-          <TabPanel>
-            <div className="max-h-96 overflow-y-auto  p-10">{movieString.join('')}</div>
-          </TabPanel>
-          <TabPanel>
-            <div className="max-h-96 overflow-y-auto  p-10">{seriesString}</div>
-          </TabPanel>
-
-          <div>
-            <button
-              onClick={() =>
-                handleCodeCopy(activeTabIndex === 0 ? movieString.join('') : seriesString)
-              }
-              className="absolute right-0 top-0 mr-4 mt-4 text-xl text-white/50  hover:text-white"
-            >
-              <FiCopy></FiCopy>
-            </button>
-          </div>
-        </div>
-        <div>preview apnel</div>
-      </Tabs> */}
     </div>
   );
 }

@@ -11,6 +11,8 @@ export default function useContentStrings(data) {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   };
 
+  const [totalSz, setTotalSz] = useState(0);
+
   useEffect(() => {
     const updateSeriesString = () => {
       const filteredEpisodesList = data.filter(
@@ -22,10 +24,13 @@ export default function useContentStrings(data) {
           episode.name.endsWith('.rar') ||
           episode.name.endsWith('.mp4')
       );
-      var totalSz = filteredEpisodesList.reduce((acc, epi) => {
-        acc += parseInt(epi.size);
-        return acc;
-      }, 0);
+      setTotalSz(
+        filteredEpisodesList.reduce((acc, epi) => {
+          acc += parseInt(epi.size);
+          return acc;
+        }, 0)
+      );
+
       const episodesList = filteredEpisodesList.map(
         (episode, index) =>
           `[maxbutton id="${
@@ -66,5 +71,5 @@ export default function useContentStrings(data) {
     updateSeriesString();
   }, []);
 
-  return [movieStrings, episodeStrings];
+  return [movieStrings, episodeStrings, totalSz];
 }

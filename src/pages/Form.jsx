@@ -31,14 +31,13 @@ function FormBuilder(props) {
     contentType: 'movie'
   });
   const [embedString, setEmbedString] = useState([]);
+
   const addField = (data, i) => {
     setInputValue('');
 
     setFieldsData((prevFieldsData) => [...prevFieldsData, { title: data[0].name, value: data }]);
     setFields([...fields, { fieldData: data }]);
   };
-
-  const [count, setCount] = useState(0);
 
   useEffect(() => {
     setFormData((prevFormData) => ({
@@ -184,8 +183,9 @@ function FormBuilder(props) {
     '1080p': false,
     x264: false,
     HEVC: false,
-    'HDR DoVi': false,
-    REMUX: false
+
+    REMUX: false,
+    'HDR DoVi': false
   });
 
   const handleCheckbox = (e) => {
@@ -491,23 +491,7 @@ function FormBuilder(props) {
                       HEVC
                     </label>
                   </div>
-                  <div>
-                    <input
-                      type="checkbox"
-                      name=""
-                      checked={titleKeys['HDR DoVi']}
-                      id="hdrdovibox"
-                      className="hidden"
-                      value="HDR DoVi"
-                      onChange={(e) => handleCheckbox(e)}
-                    />
-                    <label
-                      htmlFor="hdrdovibox"
-                      className={`rounded-md  ${titleKeys['HDR DoVi'] ? 'bg-green-600/50' : 'bg-neutral-700'} p-1`}
-                    >
-                      HDR DoVi
-                    </label>
-                  </div>
+
                   <div>
                     <input
                       type="checkbox"
@@ -523,6 +507,23 @@ function FormBuilder(props) {
                       className={`rounded-md  ${titleKeys['REMUX'] ? 'bg-green-600/50' : 'bg-neutral-700'} p-1`}
                     >
                       REMUX
+                    </label>
+                  </div>
+                  <div>
+                    <input
+                      type="checkbox"
+                      name=""
+                      checked={titleKeys['HDR DoVi']}
+                      id="hdrdovibox"
+                      className="hidden"
+                      value="HDR DoVi"
+                      onChange={(e) => handleCheckbox(e)}
+                    />
+                    <label
+                      htmlFor="hdrdovibox"
+                      className={`rounded-md  ${titleKeys['HDR DoVi'] ? 'bg-green-600/50' : 'bg-neutral-700'} p-1`}
+                    >
+                      HDR DoVi
                     </label>
                   </div>
                 </div>
