@@ -68,7 +68,10 @@ function FormBuilder(props) {
       });
     }
 
-    if (!folderURL.startsWith('https://drive.google.com/')) {
+    if (
+      !folderURL.startsWith('https://drive.google.com/') &&
+      !folderURL.startsWith('https://drive.usercontent.google.com/')
+    ) {
       return toast.error('Invalid URL format', {
         theme: 'colored',
         autoClose: 2000,
@@ -78,16 +81,20 @@ function FormBuilder(props) {
 
     //https://drive.google.com/file/d/1s72LKrT1-SAtx5tVdXvHxcjR7KO8F_an/view?usp=drive_link
     // const isFileUrl = /(?:\/(?:drive\/)?(?:u\/\d+\/)?file\/d\/[a-zA-Z0-9_-]+\/?)/.test(folderURL);
-    const isFileUrl = /(?:\/(?:drive\/)?(?:u\/\d+\/)?(?:file\/d\/|uc\?id=)[a-zA-Z0-9_-]+\/?)/.test(
-      folderURL
-    );
+    const isFileUrl =
+      /(?:\/(?:drive\/)?(?:u\/\d+\/)?(?:file\/d\/|uc\?id=)|https:\/\/drive\.usercontent\.google\.com\/download\?id=)[a-zA-Z0-9_-]+\/?/.test(
+        folderURL
+      );
+
     const isFolderUrl = /(?:\/(?:drive\/)?(?:u\/\d+\/)?folders\/[a-zA-Z0-9_-]+\/?)/.test(folderURL);
 
     var fID = '';
     var type = '';
     if (isFileUrl) {
       // const fileRegex = /\/(?:drive\/)?(?:u\/\d+\/)?file\/d\/([a-zA-Z0-9_-]+)/;
-      const fileRegex = /(?:\/(?:drive\/)?(?:u\/\d+\/)?(?:file\/d\/|uc\?id=))([a-zA-Z0-9_-]+)/;
+      // const fileRegex = /(?:\/(?:drive\/)?(?:u\/\d+\/)?(?:file\/d\/|uc\?id=))([a-zA-Z0-9_-]+)/;
+      const fileRegex =
+        /(?:\/(?:drive\/)?(?:u\/\d+\/)?(?:file\/d\/|uc\?id=)|https:\/\/drive\.usercontent\.google\.com\/download\?id=)([a-zA-Z0-9_-]+)/;
 
       fID = folderURL.match(fileRegex)[1];
       type = 'file';
