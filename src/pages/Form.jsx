@@ -172,7 +172,7 @@ function FormBuilder(props) {
 
   const [titleKeys, setTitleKeys] = useState({
     '2160p': false,
-    '4k 10bit': false,
+    '4k': false,
     '1080p 10bit': false,
     '1080p': false,
     x264: false,
@@ -185,6 +185,13 @@ function FormBuilder(props) {
     const value = e.target.value;
     const isChecked = e.target.checked;
     setTitleKeys((prevStates) => ({ ...prevStates, [value]: isChecked }));
+  };
+
+  const handleSetAllTrue = (e) => {
+    const toBeUpdated = { ...titleKeys };
+    if (e.target.checked) Object.keys(toBeUpdated).forEach((key) => (toBeUpdated[key] = true));
+    else Object.keys(toBeUpdated).forEach((key) => (toBeUpdated[key] = false));
+    setTitleKeys(toBeUpdated);
   };
 
   return (
@@ -351,94 +358,124 @@ function FormBuilder(props) {
           <div className="col-span-2 flex flex-col gap-3">
             <div className="relative mr-2 mt-2 flex max-w-5xl flex-col gap-2 overflow-hidden whitespace-normal break-all rounded-md border border-neutral-600 bg-neutral-900 p-2">
               <span className="text-lg font-bold">
-                {`${formData.title} (${formData.year}) ${formData.contentType === 'series' ? (formData.seasonCount > 1 ? '(Season 1 - ' + formData.seasonCount + ')' : '(Season 1)') : ''} ${formData.audioType} Audio {} ${Object.keys(
+                {`${formData.title} (${formData.year}) ${formData.contentType === 'series' ? (formData.seasonCount > 1 ? '(Season 1 - ' + formData.seasonCount + ')' : '(Season 1)') : ''} ${formData.audioType !== 'Single' ? formData.audioType + ' Audio' : ''} ${formData.audioType !== 'Single' ? '{Hindi-English}' : '{English Audio}'} ${Object.keys(
                   titleKeys
                 )
                   .filter((key) => titleKeys[key])
                   .join(' || ')} ${formData.printType} Esubs`}
               </span>
               <div className="flex items-center gap-2">
-                <div className="flex w-max gap-2 rounded-md bg-neutral-800 p-2">
+                <div className="flex w-max select-none gap-2 rounded-md bg-neutral-800 p-2">
                   <div>Tags:</div>
+
                   <div>
                     <input
                       type="checkbox"
                       name=""
-                      id=""
+                      id="allbox"
+                      value=""
+                      checked={
+                        Object.values(titleKeys).some((value) => value === false) ? false : true
+                      }
+                      onChange={(e) => handleSetAllTrue(e)}
+                    />
+                    <label htmlFor="allbox">Select/Deselect All</label>
+                  </div>
+                  <div>
+                    <input
+                      type="checkbox"
+                      name=""
+                      id="2160pbox"
                       value="2160p"
+                      checked={titleKeys['2160p']}
                       onChange={(e) => handleCheckbox(e)}
+                      className="hidden"
                     />
-                    2160p
+                    <label
+                      htmlFor="2160pbox"
+                      className={`rounded-md  ${titleKeys['2160p'] ? 'bg-green-600/50' : 'bg-neutral-700'} p-1`}
+                    >
+                      2160p
+                    </label>
                   </div>
                   <div>
                     <input
                       type="checkbox"
                       name=""
-                      id=""
-                      value="4k 10bit"
+                      id="4kbox"
+                      value="4k"className='hidden'
+                      checked={titleKeys['4k']}
                       onChange={(e) => handleCheckbox(e)}
                     />
-                    4k 10bit
+                      
+                    <label htmlFor="4kbox" className={`rounded-md  ${titleKeys['4k'] ? 'bg-green-600/50' : 'bg-neutral-700'} p-1`} >4k</label>
                   </div>
                   <div>
                     <input
                       type="checkbox"
                       name=""
-                      id=""
-                      value="1080p 10bit"
+                      checked={titleKeys['1080p 10bit']}
+                      id="1080p10bitbox"
+                      value="1080p 10bit"className='hidden'
                       onChange={(e) => handleCheckbox(e)}
                     />
-                    1080p 10bit
+                    <label htmlFor="1080p10bitbox" className={`rounded-md  ${titleKeys['1080p 10bit'] ? 'bg-green-600/50' : 'bg-neutral-700'} p-1`}>1080p 10bit</label>
                   </div>
                   <div>
                     <input
                       type="checkbox"
                       name=""
-                      id=""
+                      id="1080pbox"className='hidden'
+                      checked={titleKeys['1080p']}
                       value="1080p"
                       onChange={(e) => handleCheckbox(e)}
                     />
-                    1080p
+                    <label htmlFor="1080pbox" className={`rounded-md  ${titleKeys['1080p'] ? 'bg-green-600/50' : 'bg-neutral-700'} p-1`}>1080p</label>
                   </div>
                   <div>
                     <input
                       type="checkbox"
                       name=""
-                      id=""
+                      checked={titleKeys['x264']}
+                      id="x264box"className='hidden'
                       value="x264"
                       onChange={(e) => handleCheckbox(e)}
                     />
-                    x264
+                    <label htmlFor="x264box" className={`rounded-md  ${titleKeys['x264'] ? 'bg-green-600/50' : 'bg-neutral-700'} p-1`}>x264</label>
                   </div>
                   <div>
                     <input
                       type="checkbox"
                       name=""
-                      id=""
+                      checked={titleKeys['HEVC']}
+                      id="hevcbox"className='hidden'
                       value="HEVC"
                       onChange={(e) => handleCheckbox(e)}
                     />
-                    HEVC
+                    <label htmlFor="hevcbox" className={`rounded-md  ${titleKeys['HEVC'] ? 'bg-green-600/50' : 'bg-neutral-700'} p-1`}>HEVC</label>
                   </div>
                   <div>
                     <input
                       type="checkbox"
                       name=""
-                      id=""
+                      checked={titleKeys['HDR DoVi']}
+                      id="hdrdovibox"className='hidden'
                       value="HDR DoVi"
                       onChange={(e) => handleCheckbox(e)}
                     />
-                    HDR DoVi
+                    <label htmlFor="hdrdovibox" className={`rounded-md  ${titleKeys['HDR DoVi'] ? 'bg-green-600/50' : 'bg-neutral-700'} p-1`}>HDR DoVi</label>
                   </div>
                   <div>
                     <input
                       type="checkbox"
                       name=""
-                      id=""
+                      id="remuxbox"
+                      checked={titleKeys['REMUX']}
                       value="REMUX"
+                      className='hidden'
                       onChange={(e) => handleCheckbox(e)}
                     />
-                    REMUX
+                    <label htmlFor="remuxbox" className={`rounded-md  ${titleKeys['REMUX'] ? 'bg-green-600/50' : 'bg-neutral-700'} p-1`}>REMUX</label>
                   </div>
                 </div>
                 <button

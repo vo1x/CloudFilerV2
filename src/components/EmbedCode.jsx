@@ -5,16 +5,10 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { useCallback, useState } from 'react';
 import Toggle from 'react-toggle';
 import './ReactToggle.css';
+import useFileSize from '../hooks/useFileSize';
 
 function EmbedCode(props) {
-  const getReadableFS = (bytes) => {
-    if (bytes === 0) return '0 Bytes';
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-  };
-
+  const { getReadableFS } = useFileSize();
   const [activeTabIndex, setActiveTabIndex] = useState(0);
 
   const handleCodeCopy = (item) => {
@@ -69,11 +63,21 @@ function EmbedCode(props) {
     return acc;
   }, 0);
 
+  const [isTitle, setIsTitle] = useState(true);
+  const toggleTitle = () => {
+    setIsTitle((isTitle) => !isTitle);
+  };
+
   const seriesString =
-    `\n<p style="text-align: center;">[mks_separator style="solid" height="5"]</p>` +
-    `\n<p style="text-align: center;"><span style="color: #000000;"><strong>${filteredEpisodesList[0].name.slice(0, -4).replace(/(S\d+)\s*E\d+/, '$1')}\n[<span style="color: #ff0000;">${getReadableFS(totalSz / filteredEpisodesList.length)}/<span style="color: #0000ff;">E</span></span>]</strong></span></p>\n` +
+    (isTitle
+      ? `\n<p style="text-align: center;">[mks_separator style="solid" height="5"]</p>` +
+        `\n<p style="text-align: center;"><span style="color: #000000;"><strong>${filteredEpisodesList[0].name.slice(0, -4).replace(/(S\d+)\s*E\d+/, '$1')}\n[<span style="color: #ff0000;">${getReadableFS(totalSz / filteredEpisodesList.length)}/<span style="color: #0000ff;">E</span></span>]</strong></span></p>\n`
+      : '') +
     `<p style="text-align: center;"> ${episodesList.join(' ')} </p>` +
-    `\n<p style="text-align: center;">[mks_separator style="solid" height="5"]</p>\n`;
+    (isTitle
+      ? `\n<p style="text-align: center;">[mks_separator style="solid" height="5"]</p>\n`
+      : '');
+
   const [isPreviewEnabled, setIsPreviewEnabled] = useState(false);
   const togglePreview = useCallback(() => {
     setIsPreviewEnabled((isPreviewEnabled) => !isPreviewEnabled);
@@ -102,8 +106,18 @@ function EmbedCode(props) {
             </Tab>
           </TabList>
           <div className="flex items-center gap-1 pr-2 ">
+            {activeTabIndex === 1 && (
+              <>
+                <label htmlFor="toggle-title">Title</label>
+                <Toggle
+                  id="toggle-title"
+                  defaultChecked
+                  className="scale-75"
+                  onChange={toggleTitle}
+                ></Toggle>
+              </>
+            )}
             <label htmlFor="cheese-status">Embed preview</label>
-
             <Toggle id="cheese-status" className=" scale-75" onChange={togglePreview} />
           </div>
         </div>
