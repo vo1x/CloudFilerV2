@@ -403,12 +403,18 @@ function FormBuilder(props) {
                       type="checkbox"
                       name=""
                       id="4kbox"
-                      value="4k"className='hidden'
+                      value="4k"
+                      className="hidden"
                       checked={titleKeys['4k']}
                       onChange={(e) => handleCheckbox(e)}
                     />
-                      
-                    <label htmlFor="4kbox" className={`rounded-md  ${titleKeys['4k'] ? 'bg-green-600/50' : 'bg-neutral-700'} p-1`} >4k</label>
+
+                    <label
+                      htmlFor="4kbox"
+                      className={`rounded-md  ${titleKeys['4k'] ? 'bg-green-600/50' : 'bg-neutral-700'} p-1`}
+                    >
+                      4k
+                    </label>
                   </div>
                   <div>
                     <input
@@ -416,54 +422,84 @@ function FormBuilder(props) {
                       name=""
                       checked={titleKeys['1080p 10bit']}
                       id="1080p10bitbox"
-                      value="1080p 10bit"className='hidden'
+                      value="1080p 10bit"
+                      className="hidden"
                       onChange={(e) => handleCheckbox(e)}
                     />
-                    <label htmlFor="1080p10bitbox" className={`rounded-md  ${titleKeys['1080p 10bit'] ? 'bg-green-600/50' : 'bg-neutral-700'} p-1`}>1080p 10bit</label>
+                    <label
+                      htmlFor="1080p10bitbox"
+                      className={`rounded-md  ${titleKeys['1080p 10bit'] ? 'bg-green-600/50' : 'bg-neutral-700'} p-1`}
+                    >
+                      1080p 10bit
+                    </label>
                   </div>
                   <div>
                     <input
                       type="checkbox"
                       name=""
-                      id="1080pbox"className='hidden'
+                      id="1080pbox"
+                      className="hidden"
                       checked={titleKeys['1080p']}
                       value="1080p"
                       onChange={(e) => handleCheckbox(e)}
                     />
-                    <label htmlFor="1080pbox" className={`rounded-md  ${titleKeys['1080p'] ? 'bg-green-600/50' : 'bg-neutral-700'} p-1`}>1080p</label>
+                    <label
+                      htmlFor="1080pbox"
+                      className={`rounded-md  ${titleKeys['1080p'] ? 'bg-green-600/50' : 'bg-neutral-700'} p-1`}
+                    >
+                      1080p
+                    </label>
                   </div>
                   <div>
                     <input
                       type="checkbox"
                       name=""
                       checked={titleKeys['x264']}
-                      id="x264box"className='hidden'
+                      id="x264box"
+                      className="hidden"
                       value="x264"
                       onChange={(e) => handleCheckbox(e)}
                     />
-                    <label htmlFor="x264box" className={`rounded-md  ${titleKeys['x264'] ? 'bg-green-600/50' : 'bg-neutral-700'} p-1`}>x264</label>
+                    <label
+                      htmlFor="x264box"
+                      className={`rounded-md  ${titleKeys['x264'] ? 'bg-green-600/50' : 'bg-neutral-700'} p-1`}
+                    >
+                      x264
+                    </label>
                   </div>
                   <div>
                     <input
                       type="checkbox"
                       name=""
                       checked={titleKeys['HEVC']}
-                      id="hevcbox"className='hidden'
+                      id="hevcbox"
+                      className="hidden"
                       value="HEVC"
                       onChange={(e) => handleCheckbox(e)}
                     />
-                    <label htmlFor="hevcbox" className={`rounded-md  ${titleKeys['HEVC'] ? 'bg-green-600/50' : 'bg-neutral-700'} p-1`}>HEVC</label>
+                    <label
+                      htmlFor="hevcbox"
+                      className={`rounded-md  ${titleKeys['HEVC'] ? 'bg-green-600/50' : 'bg-neutral-700'} p-1`}
+                    >
+                      HEVC
+                    </label>
                   </div>
                   <div>
                     <input
                       type="checkbox"
                       name=""
                       checked={titleKeys['HDR DoVi']}
-                      id="hdrdovibox"className='hidden'
+                      id="hdrdovibox"
+                      className="hidden"
                       value="HDR DoVi"
                       onChange={(e) => handleCheckbox(e)}
                     />
-                    <label htmlFor="hdrdovibox" className={`rounded-md  ${titleKeys['HDR DoVi'] ? 'bg-green-600/50' : 'bg-neutral-700'} p-1`}>HDR DoVi</label>
+                    <label
+                      htmlFor="hdrdovibox"
+                      className={`rounded-md  ${titleKeys['HDR DoVi'] ? 'bg-green-600/50' : 'bg-neutral-700'} p-1`}
+                    >
+                      HDR DoVi
+                    </label>
                   </div>
                   <div>
                     <input
@@ -472,16 +508,21 @@ function FormBuilder(props) {
                       id="remuxbox"
                       checked={titleKeys['REMUX']}
                       value="REMUX"
-                      className='hidden'
+                      className="hidden"
                       onChange={(e) => handleCheckbox(e)}
                     />
-                    <label htmlFor="remuxbox" className={`rounded-md  ${titleKeys['REMUX'] ? 'bg-green-600/50' : 'bg-neutral-700'} p-1`}>REMUX</label>
+                    <label
+                      htmlFor="remuxbox"
+                      className={`rounded-md  ${titleKeys['REMUX'] ? 'bg-green-600/50' : 'bg-neutral-700'} p-1`}
+                    >
+                      REMUX
+                    </label>
                   </div>
                 </div>
                 <button
                   onClick={() =>
                     handleItemCopy(
-                      `${formData.title} (${formData.year}) ${formData.contentType === 'series' ? (formData.seasonCount > 1 ? '(Season 1 - ' + formData.seasonCount + ')' : '(Season 1)') : ''} ${formData.audioType} Audio {} ${Object.keys(
+                      `${formData.title} (${formData.year}) ${formData.contentType === 'series' ? (formData.seasonCount > 1 ? '(Season 1 - ' + formData.seasonCount + ')' : '(Season 1)') : ''} ${formData.audioType !== 'Single' ? formData.audioType + ' Audio' : ''} ${formData.audioType !== 'Single' ? '{Hindi-English}' : '{English Audio}'} ${Object.keys(
                         titleKeys
                       )
                         .filter((key) => titleKeys[key])
