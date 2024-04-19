@@ -14,8 +14,8 @@ function EmbedCode(props) {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
 
   const [copied, handleItemCopy] = useClipboard();
-
-  const [movieStrings, episodeStrings, totalSz] = useContentStrings(props.data);
+  const [customValue, setCustomValue] = useState(1);
+  const [movieStrings, episodeStrings, totalSz] = useContentStrings(props.data, customValue);
 
   const filteredEpisodesList = props.data.filter(
     (episode) =>
@@ -69,6 +69,23 @@ function EmbedCode(props) {
               Series
             </Tab>
           </TabList>
+          {activeTabIndex === 1 && (
+            <div>
+              <span>Start numbering from: </span>
+              <input
+                type="number"
+                min={1}
+                value={customValue}
+                onChange={(e) => {
+                  if (parseInt(e.target.value) < 1) {
+                    setCustomValue(1);
+                  } else setCustomValue(parseInt(e.target.value));
+                }}
+                className="w-30 rounded-md border border-white/20 bg-white/5 p-2 text-sm outline-none transition-all duration-300 placeholder:text-white/50 focus:border-white/70"
+              />
+            </div>
+          )}
+
           <div className="flex items-center gap-1 pr-2 ">
             {activeTabIndex === 1 && (
               <>

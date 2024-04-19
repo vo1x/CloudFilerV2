@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export default function useContentStrings(data) {
+export default function useContentStrings(data, episodeStartIndex) {
   const [episodeStrings, setEpisodeStrings] = useState([]);
   const [movieStrings, setMovieStrings] = useState([]);
   const getReadableFS = (bytes) => {
@@ -46,7 +46,7 @@ export default function useContentStrings(data) {
             episode.name.endsWith('.7z') ||
             episode.name.endsWith('.rar')
               ? ''
-              : `text="Episode ${index + 1}"`
+              : `text="Episode ${index + episodeStartIndex}"`
           }  ]`
       );
       setEpisodeStrings(episodesList);
@@ -70,7 +70,7 @@ export default function useContentStrings(data) {
 
     updateMoviesString();
     updateSeriesString();
-  }, []);
+  }, [episodeStartIndex]);
 
   return [movieStrings, episodeStrings, totalSz];
 }
