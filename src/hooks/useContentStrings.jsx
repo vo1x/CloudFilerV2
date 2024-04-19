@@ -56,6 +56,7 @@ export default function useContentStrings(data) {
       const sortedMovieList = data;
       const movieString = sortedMovieList
         .filter((movie) => movie.name.endsWith('.mkv') || movie.name.endsWith('.mp4'))
+        .sort((a, b) => b.size - a.size)
         .map(
           (movie, index) =>
             `${index === 0 ? '\n<p style="text-align: center;">[mks_separator style="solid" height="5"]</p>\n' : ''}` +
