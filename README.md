@@ -1,6 +1,6 @@
 # CloudfilerV2
 
-CloudfilerV2 is a rewrite of the older project in ReactJs that returns queries the Google Drive API and returns information on drive folder/file. Also, it generates raw HTML markup for an undisclosed site (you can ignore that specific component). Furthermore, the code is not the best, so critiques and suggestions are always welcome!
+CloudfilerV2 is a rewrite of the older project in ReactJs that queries Google Drive API and returns information on the drive folder/file via it's URL. Also, it generates raw HTML markup for an undisclosed site (you can ignore that specific component). Furthermore, the code is not the best, so critiques and suggestions are always welcome!
 
 ## To-Do
 - [ ] Refactor code and project structure
