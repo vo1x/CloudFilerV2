@@ -19,6 +19,9 @@ function FormBuilder(props) {
     setFields((prevFields) => prevFields.filter((_, index) => index !== indexToRemove));
     setFieldsData((prevFieldsData) => prevFieldsData.filter((_, index) => index !== indexToRemove));
   };
+
+  const [audioLang, setAudioLang] = useState('English');
+
   const [formData, setFormData] = useState({
     title: 'Movie',
     year: '2024',
@@ -26,12 +29,18 @@ function FormBuilder(props) {
     quality: '1080p',
     printType: 'Web-DL',
     audioType: 'Single',
-    audioLanguages: ['English'],
+    audioLanguages: audioLang,
     posterURL: '',
     trailerURL: '',
     fields: fieldsData,
     contentType: 'movie'
   });
+
+  const handleAudioLangChange = (lang) => {
+    setAudioLang(lang);
+    setFormData((prev) => ({ ...prev, audioLanguages: lang }));
+  };
+
   const [embedString, setEmbedString] = useState([]);
 
   const addField = (data, i) => {
@@ -203,8 +212,6 @@ function FormBuilder(props) {
     setTitleKeys(toBeUpdated);
   };
 
-  const [audioLang, setAudioLang] = useState('');
-
   return (
     <>
       <div className="grid max-h-svh place-items-center overflow-hidden">
@@ -304,7 +311,7 @@ function FormBuilder(props) {
                 <option value="Multi">Multi</option>
               </select>
 
-              <AudioInputField defaultValue={'English'} setAudioLang={setAudioLang} />
+              <AudioInputField defaultValue={'English'} setAudioLang={handleAudioLangChange} />
             </div>
 
             <div>
