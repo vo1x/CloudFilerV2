@@ -1,6 +1,4 @@
 import { FiCopy } from 'react-icons/fi';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { useCallback, useState } from 'react';
 import Toggle from 'react-toggle';

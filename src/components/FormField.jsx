@@ -1,9 +1,6 @@
 import { useState, useEffect } from 'react';
-import { FiCopy } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 function Field(props) {
-  console.log('props.data:', props.data); // Log props.data to check its value
-
   const getReadableFS = (bytes) => {
     if (bytes === 0) return '0 Bytes';
     const k = 1024;
@@ -100,34 +97,13 @@ function Field(props) {
       <div className="flex flex-col rounded-md border border-white/20 bg-white/5 p-2">
         <div className="flex items-center justify-between ">
           <span className="font-bold text-neutral-100">Field {props.fieldIndex} </span>
-
-          {/* <div className="flex items-center gap-2">
-            <button
-              onClick={() => handleCodeCopy(embedString)}
-              className="mr-7 text-lg text-neutral-400 transition-all duration-200 hover:text-neutral-100"
-            >
-              <FiCopy />
-            </button>
-          </div> */}
         </div>
         <span className="my-2 border-b border-neutral-500"></span>
 
         <div className="overflow-hidden whitespace-normal break-all">
-          {/* {JSON.stringify(props.data)} */}
           {props.data.map((sub, i) => (
             <div className="mb-2 flex justify-center rounded-md border border-neutral-700 bg-neutral-700 p-1 text-sm">
               <div>{sub.name}</div>
-              {/* <span className="mx-2 border border-neutral-500/50"></span> */}
-              {/* <button
-                className="text-md mr-1 text-neutral-300 hover:text-neutral-100"
-                onClick={() =>
-                  handleCodeCopy(
-                    props.contentType === 'series' ? episodeStrings[i] : movieStrings[i]
-                  )
-                }
-              >
-                <FiCopy />
-              </button> */}
             </div>
           ))}
         </div>
