@@ -46,7 +46,7 @@ function EmbedCode(props) {
   }, []);
 
   return (
-    <div className="flex h-max flex-col content-center gap-3 rounded-md border border-white/20 bg-white/5 p-5">
+    <div className="flex h-max w-max flex-col content-center gap-3 rounded-md border border-white/20 bg-white/5 p-5">
       <span className=" text-center text-3xl font-bold">Embed Code</span>
       <Tabs>
         <div className="flex items-center justify-between">
