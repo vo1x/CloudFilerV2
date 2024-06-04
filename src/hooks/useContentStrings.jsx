@@ -1,14 +1,17 @@
 import { useState, useEffect } from 'react';
+import useFileSize from './useFileSize';
 
 export default function useContentStrings(data, episodeStartIndex) {
   const [episodeStrings, setEpisodeStrings] = useState([]);
   const [movieStrings, setMovieStrings] = useState([]);
-  const getReadableFS = (bytes) => {
-    if (bytes === 0) return '0 Bytes';
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+
+  const { getReadableFS } = useFileSize();
+
+  const extractEpisode = (fileName) => {
+    const episodeReg = /S\d{2}E(\d{2})/;
+    const match = episodeReg.exec(fileName);
+    const epNum = match ? parseInt(match[1], 10) : null;
+    return epNum;
   };
 
   const [totalSz, setTotalSz] = useState(0);
@@ -46,8 +49,10 @@ export default function useContentStrings(data, episodeStartIndex) {
             episode.name.endsWith('.7z') ||
             episode.name.endsWith('.rar')
               ? ''
-              : `text="Episode ${index + episodeStartIndex}"`
-          }  ]`
+              : episodeStartIndex
+                ? `text="Episode ${index + episodeStartIndex}"`
+                : `text="Episode ${extractEpisode(episode.name)}"`
+          }]`
       );
       setEpisodeStrings(episodesList);
     };
