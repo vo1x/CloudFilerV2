@@ -15,17 +15,12 @@ export default function useContentStrings(data, episodeStartIndex) {
   };
 
   const [totalSz, setTotalSz] = useState(0);
-
+  const validExtensions = ['.mkv', '.zip', '.tar', '.7z', '.rar', '.mp4'];
+  const compressedExtensions = ['.zip', '.tar', '.7z', '.rar'];
   useEffect(() => {
     const updateSeriesString = () => {
-      const filteredEpisodesList = data.filter(
-        (episode) =>
-          episode.name.endsWith('.mkv') ||
-          episode.name.endsWith('.zip') ||
-          episode.name.endsWith('.tar') ||
-          episode.name.endsWith('.7z') ||
-          episode.name.endsWith('.rar') ||
-          episode.name.endsWith('.mp4')
+      const filteredEpisodesList = data.filter((episode) =>
+        validExtensions.some((extension) => episode.name.endsWith(extension))
       );
       setTotalSz(
         filteredEpisodesList.reduce((acc, epi) => {
@@ -36,23 +31,15 @@ export default function useContentStrings(data, episodeStartIndex) {
 
       const episodesList = filteredEpisodesList.map(
         (episode, index) =>
-          `[maxbutton id="${
-            episode.name.endsWith('.zip') ||
-            episode.name.endsWith('.tar') ||
-            episode.name.endsWith('.7z') ||
-            episode.name.endsWith('.rar')
-              ? '3'
-              : '2'
-          }" url="${episode.webContentLink}" ${
-            episode.name.endsWith('.zip') ||
-            episode.name.endsWith('.tar') ||
-            episode.name.endsWith('.7z') ||
-            episode.name.endsWith('.rar')
-              ? ''
-              : episodeStartIndex
-                ? `text="Episode ${index + episodeStartIndex}"`
-                : `text="Episode ${extractEpisode(episode.name)}"`
-          }]`
+          `[maxbutton ${
+            compressedExtensions.some((extension) => episode.name.endsWith(extension))
+              ? `id="3"`
+              : `id="2" ${
+                  episodeStartIndex
+                    ? `text="Episode ${index + episodeStartIndex}"`
+                    : `text="Episode ${extractEpisode(episode.name)}"`
+                }`
+          } url="${episode.webContentLink}" ]`
       );
       setEpisodeStrings(episodesList);
     };
