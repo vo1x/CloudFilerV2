@@ -60,6 +60,7 @@ export default function useContentStrings(data, episodeStartIndex) {
       setMovieStrings(movieString);
     };
 
+
     updateMoviesString();
     updateSeriesString();
   }, [episodeStartIndex]);

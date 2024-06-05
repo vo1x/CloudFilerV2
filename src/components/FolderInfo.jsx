@@ -1,8 +1,9 @@
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import useClipboard from '../hooks/useClipboard';
 import { useState } from 'react';
+import useMovieString from '../hooks/useMovieString'; 
 import useFileSize from '../hooks/useFileSize';
-export default function FolderInfo({ folderData, movieStrings, episodeStrings }) {
+export default function FolderInfo({ folderData, episodeStrings, nameSortedMovieStrings }) {
   const toggleIsExpanded = () => {
     setIsExpanded((isExpanded) => !isExpanded);
   };
@@ -35,7 +36,6 @@ export default function FolderInfo({ folderData, movieStrings, episodeStrings })
           placeholder="Enter a query"
           onChange={(e) => setInputValue(e.target.value)}
         />
-        {/* <span className="text-sm text-white/50">Files are sorted by name</span> */}
       </div>
       <ul
         className={`gap grid max-h-96 grid-flow-row gap-3 overflow-auto p-3 ${isExpanded ? '' : 'hidden'} `}
@@ -76,7 +76,7 @@ export default function FolderInfo({ folderData, movieStrings, episodeStrings })
 
                     <div className="flex flex-col gap-2">
                       <button
-                        onClick={(e) => handleItemCopy(e.target.innerText, movieStrings[i])}
+                        onClick={(e) => handleItemCopy(e.target.innerText, nameSortedMovieStrings[i])}
                         className="w-36 rounded-md border border-neutral-600 bg-neutral-600 p-1 outline-none"
                       >
                         Movie Code
@@ -129,7 +129,7 @@ export default function FolderInfo({ folderData, movieStrings, episodeStrings })
 
                       <div className="flex flex-col gap-2">
                         <button
-                          onClick={(e) => handleItemCopy(e.target.innerText, movieStrings[i])}
+                          onClick={(e) => handleItemCopy(e.target.innerText, nameSortedMovieStrings[i])}
                           className="w-36 rounded-md border border-neutral-600 bg-neutral-600 p-1 outline-none"
                         >
                           Movie Code
