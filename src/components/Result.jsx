@@ -23,6 +23,3 @@ function Result(props) {
 
 export default Result;
 
-// [ { "webContentLink": "https://drive.google.com/uc?id=1-m-wpaVqLh-io4Z9yxeLv6LCjqT8S2iP&export=download",
-// "size": "7453418553", "id": "1-m-wpaVqLh-io4Z9yxeLv6LCjqT8S2iP",
-// "name": "Decoys (2004) 1080p AMZN WEB-DL [Hindi DD 2.0 + English DDP 5.1] x264-ABM[VoLx].mkv" } ]
