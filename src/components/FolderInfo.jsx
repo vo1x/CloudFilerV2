@@ -1,8 +1,9 @@
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import useClipboard from '../hooks/useClipboard';
 import { useState } from 'react';
-import useMovieString from '../hooks/useMovieString'; 
+import { Link } from 'react-router-dom';
 import useFileSize from '../hooks/useFileSize';
+// import useFileInformation from '../hooks/useFileInformation'; Maybe will use in the future
 export default function FolderInfo({ folderData, episodeStrings, nameSortedMovieStrings }) {
   const toggleIsExpanded = () => {
     setIsExpanded((isExpanded) => !isExpanded);
@@ -11,8 +12,12 @@ export default function FolderInfo({ folderData, episodeStrings, nameSortedMovie
   const [copied, handleItemCopy] = useClipboard();
   const [isExpanded, setIsExpanded] = useState(true);
   const [inputValue, setInputValue] = useState('');
-
+  // const {extractFileInformation} = useFileInformation();
   const { getReadableFS } = useFileSize();
+  const createURL = (name) => {
+    const pattern = /^(.+?)\.S\d+E\d+/;
+    return `https://uhdmovies.foo/search/${name.match(pattern)[1].split('.').join("+").toLowerCase()}`
+  };
 
   return (
     <div className="relative h-max rounded-md border border-white/20 bg-white/5 p-3">
@@ -51,6 +56,8 @@ export default function FolderInfo({ folderData, episodeStrings, nameSortedMovie
                         onClick={(e) => handleItemCopy('File Name', e.target.innerText)}
                       >
                         {data.name}
+                        {/* {JSON.stringify(extractFileInformation(data.name))} */}
+                        
                       </span>
                     </div>
                     <div>
@@ -76,7 +83,9 @@ export default function FolderInfo({ folderData, episodeStrings, nameSortedMovie
 
                     <div className="flex flex-col gap-2">
                       <button
-                        onClick={(e) => handleItemCopy(e.target.innerText, nameSortedMovieStrings[i])}
+                        onClick={(e) =>
+                          handleItemCopy(e.target.innerText, nameSortedMovieStrings[i])
+                        }
                         className="w-36 rounded-md border border-neutral-600 bg-neutral-600 p-1 outline-none"
                       >
                         Movie Code
@@ -87,6 +96,12 @@ export default function FolderInfo({ folderData, episodeStrings, nameSortedMovie
                       >
                         Series Code
                       </button>
+                      <Link
+                        to={createURL(data.name)} target='_blank'
+                        className="w-36 rounded-md border border-neutral-600 bg-neutral-600 p-1 outline-none"
+                      >
+                        Search on Site
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -104,6 +119,7 @@ export default function FolderInfo({ folderData, episodeStrings, nameSortedMovie
                           onClick={(e) => handleItemCopy('File Name', e.target.innerText)}
                         >
                           {data.name}
+                          {/* {JSON.stringify(extractFileInformation(data.name))} */}
                         </span>
                       </div>
                       <div>
@@ -129,7 +145,9 @@ export default function FolderInfo({ folderData, episodeStrings, nameSortedMovie
 
                       <div className="flex flex-col gap-2">
                         <button
-                          onClick={(e) => handleItemCopy(e.target.innerText, nameSortedMovieStrings[i])}
+                          onClick={(e) =>
+                            handleItemCopy(e.target.innerText, nameSortedMovieStrings[i])
+                          }
                           className="w-36 rounded-md border border-neutral-600 bg-neutral-600 p-1 outline-none"
                         >
                           Movie Code
