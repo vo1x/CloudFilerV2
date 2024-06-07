@@ -214,7 +214,7 @@ function FormBuilder(props) {
 
   return (
     <>
-      <div className="grid max-h-svh place-items-center overflow-hidden">
+      <div className="grid max-h-svh place-items-center overflow-hidden p-4">
         <div className="w-100vw grid grid-cols-3">
           <div className="flex max-h-svh flex-col gap-2 overflow-auto overflow-x-hidden p-5">
             <Header></Header>
@@ -376,7 +376,7 @@ function FormBuilder(props) {
           </div>
 
           <div className="col-span-2 flex flex-col gap-3">
-            <div className="relative mr-2 mt-2 flex max-w-5xl flex-col gap-2 overflow-hidden whitespace-normal break-all rounded-md border border-neutral-600 bg-neutral-900 p-2">
+            <div className=" w-max relative mr-2 mt-2 flex max-w-5xl flex-col gap-2 overflow-hidden whitespace-normal break-all rounded-md border border-neutral-600 bg-neutral-900 p-2">
               <span className="text-lg font-bold">
                 {`Download ${formData.title} (${formData.year}) ${
                   formData.contentType === 'series'
