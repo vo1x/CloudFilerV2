@@ -97,7 +97,7 @@ function SearchBar() {
   return (
     <>
       <div>
-        <div className="flex place-content-center gap-3">
+        <div className="flex place-content-center gap-3 ">
           <input
             type="text"
             className=" ml-2 w-3/5 rounded-md border border-white/20 bg-white/5 p-2 outline-none transition-all duration-300 placeholder:text-white/50 focus:border-white/70"
