@@ -63,7 +63,7 @@ export default function useContentStrings(data, episodeStartIndex) {
 
     updateMoviesString();
     updateSeriesString();
-  }, [episodeStartIndex]);
+  }, [data, episodeStartIndex]);
 
   return [movieStrings, episodeStrings, totalSz];
 }
