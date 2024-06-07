@@ -15,7 +15,7 @@ export default function FolderInfo({ folderData, episodeStrings, nameSortedMovie
   // const {extractFileInformation} = useFileInformation();
   const { getReadableFS } = useFileSize();
   const createURL = (name) => {
-    const pattern = /^(.+?)(\s|\())/;
+    const pattern = /^(.+?)(\s|\(|\.)/;
     const match = name.match(pattern);
     if (match){
       return `https://uhdmovies.foo/search/${match[1].split('.').join("+").toLowerCase()}`
