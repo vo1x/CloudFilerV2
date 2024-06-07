@@ -79,7 +79,7 @@ export default function FolderInfo({ folderData, episodeStrings, nameSortedMovie
                   </div>
 
                   <div className="flex items-center gap-2">
-                    <span className="mx-4 h-20 border border-neutral-700"></span>
+                    <span className="mx-4 h-28 border border-neutral-700"></span>
 
                     <div className="flex flex-col gap-2">
                       <button
@@ -98,7 +98,7 @@ export default function FolderInfo({ folderData, episodeStrings, nameSortedMovie
                       </button>
                       <Link
                         to={createURL(data.name)} target='_blank'
-                        className="w-36 rounded-md border border-neutral-600 bg-neutral-600 p-1 outline-none"
+                        className="w-36 rounded-md border border-neutral-600 bg-neutral-600 p-1 outline-none text-center"
                       >
                         Search on Site
                       </Link>
