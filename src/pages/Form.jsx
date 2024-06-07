@@ -1,12 +1,12 @@
-import EmbedCode from '../components/FormEmbedCode';
+import EmbedCode from '../components/Builder/FormEmbedCode';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FiChevronDown, FiChevronUp, FiCopy, FiTrash2 } from 'react-icons/fi';
 import { useCallback, useState } from 'react';
 import { useEffect } from 'react';
-import Field from '../components/FormField';
-import Header from '../components/FormHeader';
-import AudioInputField from '../components/AudioInputField';
+import Field from '../components/Builder/FormField';
+import Header from '../components/Builder/FormHeader';
+import AudioInputField from '../components/Builder/AudioInputField';
 function FormBuilder(props) {
   const [fieldsData, setFieldsData] = useState([]);
   const [fields, setFields] = useState([]);
@@ -376,7 +376,7 @@ function FormBuilder(props) {
           </div>
 
           <div className="col-span-2 flex flex-col gap-3">
-            <div className=" w-max relative mr-2 mt-2 flex max-w-5xl flex-col gap-2 overflow-hidden whitespace-normal break-all rounded-md border border-neutral-600 bg-neutral-900 p-2">
+            <div className=" relative mr-2 mt-2 flex w-max max-w-5xl flex-col gap-2 overflow-hidden whitespace-normal break-all rounded-md border border-neutral-600 bg-neutral-900 p-2">
               <span className="text-lg font-bold">
                 {`Download ${formData.title} (${formData.year}) ${
                   formData.contentType === 'series'

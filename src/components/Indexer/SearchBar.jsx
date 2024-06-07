@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { toast } from 'react-toastify';
+import Result from './Result';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FiLoader } from 'react-icons/fi';
-import FormBuilder from '../pages/Form';
 
 function SearchBar() {
   const [extractResults, setExtractResults] = useState([]);
@@ -20,7 +20,10 @@ function SearchBar() {
       });
     }
 
-    if (!folderURL.startsWith('https://drive.google.com/drive/')) {
+    if (
+      !folderURL.startsWith('https://drive.google.com/') &&
+      !folderURL.startsWith('https://drive.usercontent.google.com/')
+    ) {
       return toast.error('Invalid URL format', {
         theme: 'colored',
         autoClose: 2000,
@@ -28,8 +31,26 @@ function SearchBar() {
       });
     }
 
-    const regex = /\/(?:drive\/)?(?:u\/\d+\/)?folders\/([a-zA-Z0-9_-]+)/;
-    const fID = folderURL.match(regex)[1];
+    const isFileUrl =
+      /(?:\/(?:drive\/)?(?:u\/\d+\/)?(?:file\/d\/|uc\?id=)|https:\/\/drive\.usercontent\.google\.com\/download\?id=)[a-zA-Z0-9_-]+\/?/.test(
+        folderURL
+      );
+
+    const isFolderUrl = /(?:\/(?:drive\/)?(?:u\/\d+\/)?folders\/[a-zA-Z0-9_-]+\/?)/.test(folderURL);
+
+    var fID = '';
+    var type = '';
+    if (isFileUrl) {
+      const fileRegex =
+        /(?:\/(?:drive\/)?(?:u\/\d+\/)?(?:file\/d\/|uc\?id=)|https:\/\/drive\.usercontent\.google\.com\/download\?id=)([a-zA-Z0-9_-]+)/;
+
+      fID = folderURL.match(fileRegex)[1];
+      type = 'file';
+    } else if (isFolderUrl) {
+      const regexFolder = /\/(?:drive\/)?(?:u\/\d+\/)?folders\/([a-zA-Z0-9_-]+)/;
+      fID = folderURL.match(regexFolder)[1];
+      type = 'folder';
+    }
 
     if (fID === prevFolderID) {
       return toast.warning('Folder already extracted!', {
@@ -42,14 +63,24 @@ function SearchBar() {
     const fetchInfo = async (folderID) => {
       setLoading(true);
       try {
-        const url = `https://www.googleapis.com/drive/v3/files?q='${folderID}'+in+parents&supportsAllDrives=true&includeItemsFromAllDrives=true&pageSize=1000&orderBy=name&fields=files(id,name,size,webContentLink,mimeType)&key=${apiKey}`;
+        var url = '';
+        if (type === 'file') {
+          url = `https://www.googleapis.com/drive/v3/files/${folderID}?supportsAllDrives=true&includeItemsFromAllDrives=true&fields=id,name,size,webContentLink,mimeType&key=${apiKey}`;
+        } else if (type === 'folder') {
+          url = `https://www.googleapis.com/drive/v3/files?q='${folderID}'+in+parents&supportsAllDrives=true&includeItemsFromAllDrives=true&pageSize=1000&orderBy=name&fields=files(id,name,size,webContentLink,mimeType)&key=${apiKey}`;
+        }
         const response = await fetch(url);
         if (!response.ok) {
           if (response.status === 404) throw new Error('Invalid URL');
           else throw new Error('Failed to fetch data');
         }
         const data = await response.json();
-        setExtractResults(data.files);
+        console.log(data);
+        if (type === 'file') {
+          setExtractResults([data]);
+        } else if (type === 'folder') {
+          setExtractResults(data.files);
+        }
       } catch (error) {
         toast.error(`${error}`, { theme: 'colored', autoClose: 2000 });
         setPrevFolderID('');
@@ -64,7 +95,7 @@ function SearchBar() {
   return (
     <>
       <div>
-        <div className="flex place-content-center gap-3">
+        <div className="flex place-content-center gap-3 ">
           <input
             type="text"
             className=" ml-2 w-3/5 rounded-md border border-white/20 bg-white/5 p-2 outline-none transition-all duration-300 placeholder:text-white/50 focus:border-white/70"
@@ -110,7 +141,7 @@ function SearchBar() {
             </button>
           ) : null}
         </div>
-        {extractResults.length > 0 && <FormBuilder data={extractResults} />}
+        {extractResults.length > 0 && <Result data={extractResults} />}
       </div>
     </>
   );

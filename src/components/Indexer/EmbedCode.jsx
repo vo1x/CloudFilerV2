@@ -3,9 +3,9 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { useCallback, useState } from 'react';
 import Toggle from 'react-toggle';
 import './ReactToggle.css';
-import useFileSize from '../hooks/useFileSize';
-import useClipboard from '../hooks/useClipboard';
-import useContentStrings from '../hooks/useContentStrings';
+import useFileSize from '../../hooks/useFileSize';
+import useClipboard from '../../hooks/useClipboard';
+import useContentStrings from '../../hooks/useContentStrings';
 
 function EmbedCode(props) {
   const { getReadableFS } = useFileSize();

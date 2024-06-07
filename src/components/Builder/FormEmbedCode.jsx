@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useEffect, useState } from 'react';
-import useFileSize from '../hooks/useFileSize';
+import useFileSize from '../../hooks/useFileSize';
 
 function EmbedCode(props) {
   const { getReadableFS } = useFileSize();
