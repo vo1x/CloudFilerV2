@@ -1,5 +1,5 @@
 import EmbedCode from './EmbedCode';
-import FolderInfo from './FolderInfo/FolderInfo';
+import FolderInfo from './Indexer/FolderInfo/FolderInfo';
 import useContentStrings from '../hooks/useContentStrings';
 import useMovieStrings from '../hooks/useMovieString';
 function Result(props) {
