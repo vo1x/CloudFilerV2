@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import Result from './Result';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 import { FiLoader } from 'react-icons/fi';
 
 function SearchBar() {

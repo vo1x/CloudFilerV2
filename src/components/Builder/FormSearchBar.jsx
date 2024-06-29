@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { FiLoader } from 'react-icons/fi';
 import FormBuilder from '../../pages/Form';
 

@@ -1,13 +1,11 @@
 import EmbedCode from '../components/Builder/FormEmbedCode';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { FiChevronDown, FiChevronUp, FiCopy, FiTrash2 } from 'react-icons/fi';
-import { useCallback, useState } from 'react';
-import { useEffect } from 'react';
+import { FiTrash2 } from 'react-icons/fi';
+import { useCallback, useState, useEffect } from 'react';
 import Field from '../components/Builder/FormField';
 import Header from '../components/Builder/FormHeader';
 import AudioInputField from '../components/Builder/AudioInputField';
-function FormBuilder(props) {
+function FormBuilder() {
   const [fieldsData, setFieldsData] = useState([]);
   const [fields, setFields] = useState([]);
   const [inputValue, setInputValue] = useState('');

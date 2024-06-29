@@ -1,44 +1,13 @@
 import { useState, useEffect } from 'react';
-import { toast } from 'react-toastify';
+import useFileSize from '../../hooks/useFileSize';
 function Field(props) {
-  const getReadableFS = (bytes) => {
-    if (bytes === 0) return '0 Bytes';
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-  };
+  const { getReadableFS } = useFileSize();
 
   const [seriesPreviewStrings, setSeriesPreviewString] = useState('');
   const [moviesPreviewStrings, setMoviesPreviewStrings] = useState('');
   const [embedString, setEmbedString] = useState('');
   const [episodeStrings, setEpisodeStrings] = useState([]);
   const [movieStrings, setMovieStrings] = useState([]);
-  const handleCodeCopy = (item) => {
-    try {
-      navigator.clipboard.writeText(item).then(() => {
-        const notify = () => {
-          toast.success(`Field embed code copied!`, {
-            theme: 'colored',
-            autoClose: 2000,
-            position: 'bottom-right'
-          });
-        };
-
-        notify();
-      });
-    } catch (error) {
-      const notify = () => {
-        toast.error(`Error:${error}`, {
-          theme: 'colored',
-          autoClose: 2000,
-          position: 'bottom-right'
-        });
-      };
-
-      notify();
-    }
-  };
 
   const updateSeriesString = () => {
     setSeriesPreviewString('');
