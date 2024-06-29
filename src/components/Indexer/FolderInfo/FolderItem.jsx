@@ -9,10 +9,17 @@ function FolderItem({ item, movieStrings, episodeStrings, index }) {
   const [copied, handleItemCopy] = useClipboard();
 
   const createURL = (name) => {
-    const pattern = /^(.+?)(S\d+E\d+|\()/i;
-    const match = name.match(pattern);
+    const seriesPattern = /^(.+?)\.S\d{2}\.\d{4}/i;
+    const moviePattern = /^(.+?)(?:\.\d{4}p)?(?:\.\d+bit)?(?:\.BluRay)?(?:\.\w{2,5})*/i;
+
+    let match = name.match(seriesPattern);
     if (match) {
-      return `https://uhdmovies.foo/search/${match[1].split('.').join('+').toLowerCase()}`;
+      return `https://uhdmovies.tel/search/${match[1].split('.').join('+').toLowerCase()}`;
+    }
+
+    match = name.match(moviePattern);
+    if (match) {
+      return `https://uhdmovies.tel/search/${match[1].split('.').join('+').toLowerCase()}`;
     }
   };
 
@@ -63,13 +70,13 @@ function FolderItem({ item, movieStrings, episodeStrings, index }) {
             >
               Series Code
             </button>
-            <Link
-              to={createURL(item.name)}
+            <a
+              href={`${createURL(item.name)}`}
               target="_blank"
               className="w-36 rounded-md border border-neutral-600 bg-neutral-600 p-1 text-center outline-none"
             >
               Search on Site
-            </Link>
+            </a>
           </div>
         </div>
       </div>
