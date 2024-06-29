@@ -1,5 +1,4 @@
 import useFileSize from '../../../hooks/useFileSize';
-import { Link } from 'react-router-dom';
 
 import useClipboard from '../../../hooks/useClipboard';
 
@@ -33,7 +32,6 @@ function FolderItem({ item, movieStrings, episodeStrings, index }) {
               onClick={(e) => handleItemCopy('File Name', e.target.innerText)}
             >
               {item.name}
-              {/* {JSON.stringify(extractFileInformation(data.name))} */}
             </span>
           </div>
           <div>
