@@ -9,14 +9,15 @@ function FolderItem({ item, movieStrings, episodeStrings, index }) {
 
   const createURL = (name) => {
     const seriesPattern = /^(.+?)\.S\d{2}\.\d{4}/i;
-    const moviePattern = /^(.+?)(?:\.\d{4}p)?(?:\.\d+bit)?(?:\.BluRay)?(?:\.\w{2,5})*/i;
 
-    let match = name.match(seriesPattern);
+    const moviePattern = /^(.*?)(?:\.202\d)/;
+
+    let match = name.replace(/\./g, '').match(seriesPattern);
     if (match) {
       return `https://uhdmovies.tel/search/${match[1].split('.').join('+').toLowerCase()}`;
     }
 
-    match = name.match(moviePattern);
+    match = name.replace(/\./g, '').match(moviePattern);
     if (match) {
       return `https://uhdmovies.tel/search/${match[1].split('.').join('+').toLowerCase()}`;
     }
