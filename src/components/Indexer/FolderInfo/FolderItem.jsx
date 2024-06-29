@@ -10,7 +10,7 @@ function FolderItem({ item, movieStrings, episodeStrings, index }) {
   const createURL = (name) => {
     const seriesPattern = /^(.+?)\.S\d{2}\.\d{4}/i;
 
-    const moviePattern = /^(.*?)(?:\.202\d)/;
+    const moviePattern = /^(.*?)(?:\.(19|20)\d{2})/;
 
     let match = name.replace(/\./g, '').match(seriesPattern);
     if (match) {
