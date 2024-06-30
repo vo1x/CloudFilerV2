@@ -1,12 +1,23 @@
 import { useEffect, useState } from 'react';
 
-export default function AudioInputField({ defaultValue, setAudioLang }) {
+export default function AudioInputField({ audioType, defaultValue, setAudioLang }) {
   const [inputValue, setInputValue] = useState(defaultValue);
+
+  useEffect(() => {
+    const audioInputValue =
+      audioType === 'Multi'
+        ? 'Hindi-English-Tamil-Telugu'
+        : audioType === 'Dual'
+          ? 'Hindi-English'
+          : defaultValue;
+    setAudioLang(audioInputValue);
+    setInputValue(audioInputValue);
+  }, [audioType]);
 
   useEffect(() => {
     setAudioLang(inputValue);
   }, [inputValue]);
-  
+
   return (
     <input
       type="text"

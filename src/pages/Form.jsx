@@ -4,6 +4,7 @@ import { FiTrash2 } from 'react-icons/fi';
 import { useCallback, useState, useEffect } from 'react';
 import Field from '../components/Builder/FormField';
 import Header from '../components/Builder/FormHeader';
+import TitleGen from '../components/Builder/TitleGen/TitleGen';
 import AudioInputField from '../components/Builder/AudioInputField';
 function FormBuilder() {
   const [fieldsData, setFieldsData] = useState([]);
@@ -154,22 +155,7 @@ function FormBuilder() {
     fetchInfo(fID).then(() => setPrevFolderID((prevFolderID) => [...prevFolderID, fID]));
   };
 
-  const [isCopied, setIsCopied] = useState(false);
-  const handleItemCopy = (item) => {
-    setIsCopied(false);
-    navigator.clipboard.writeText(item).then(() => {
-      // const notify = () => {
-      //   toast.success(`Field embed code copied!`, {
-      //     theme: 'colored',
-      //     autoClose: 2000,
-      //     position: 'bottom-right'
-      //   });
-      // };
-      // notify();
-      setIsCopied(true);
-      setTimeout(() => setIsCopied(false), 2000);
-    });
-  };
+
 
   const getReadableFS = (bytes) => {
     if (bytes === 0) return '0 Bytes';
@@ -184,24 +170,6 @@ function FormBuilder() {
   const toggleIsExpanded = useCallback(() => {
     setIsExpanded((isExpanded) => !isExpanded);
   }, []);
-
-  const [titleKeys, setTitleKeys] = useState({
-    '2160p': false,
-    '4k': false,
-    '1080p 10bit': false,
-    '1080p': false,
-    x264: false,
-    HEVC: false,
-
-    REMUX: false,
-    'HDR DoVi': false
-  });
-
-  const handleCheckbox = (e) => {
-    const value = e.target.value;
-    const isChecked = e.target.checked;
-    setTitleKeys((prevStates) => ({ ...prevStates, [value]: isChecked }));
-  };
 
   const handleSetAllTrue = (e) => {
     const toBeUpdated = { ...titleKeys };
@@ -309,7 +277,11 @@ function FormBuilder() {
                 <option value="Multi">Multi</option>
               </select>
 
-              <AudioInputField defaultValue={'English'} setAudioLang={handleAudioLangChange} />
+              <AudioInputField
+                audioType={formData.audioType}
+                defaultValue={'English'}
+                setAudioLang={handleAudioLangChange}
+              />
             </div>
 
             <div>
@@ -373,205 +345,8 @@ function FormBuilder() {
             </div>
           </div>
 
-          <div className="col-span-2 flex flex-col gap-3">
-            <div className=" relative mr-2 mt-2 flex w-max max-w-5xl flex-col gap-2 overflow-hidden whitespace-normal break-all rounded-md border border-neutral-600 bg-neutral-900 p-2">
-              <span className="text-lg font-bold">
-                {`Download ${formData.title} (${formData.year}) ${
-                  formData.contentType === 'series'
-                    ? formData.seasonCount > 1
-                      ? `(Season 1 - ${formData.seasonCount}) `
-                      : '(Season 1) '
-                    : ''
-                }${
-                  formData.audioType === 'Dual' || formData.audioType === 'Multi'
-                    ? `${formData.audioType} Audio {${audioLang}} `
-                    : `{${audioLang} Audio} `
-                }${Object.keys(titleKeys)
-                  .filter((key) => titleKeys[key])
-                  .map((key) => `${key} `)
-                  .join('|| ')}${formData.printType} Esubs`}
-              </span>
-              <div className="flex items-center gap-2">
-                <div className="flex w-max select-none gap-2 rounded-md bg-neutral-800 p-2">
-                  <div>Tags:</div>
-
-                  <div>
-                    <input
-                      type="checkbox"
-                      name=""
-                      id="allbox"
-                      value=""
-                      checked={
-                        Object.values(titleKeys).some((value) => value === false) ? false : true
-                      }
-                      onChange={(e) => handleSetAllTrue(e)}
-                    />
-                    <label htmlFor="allbox">Select/Deselect All</label>
-                  </div>
-                  <div>
-                    <input
-                      type="checkbox"
-                      name=""
-                      id="2160pbox"
-                      value="2160p"
-                      checked={titleKeys['2160p']}
-                      onChange={(e) => handleCheckbox(e)}
-                      className="hidden"
-                    />
-                    <label
-                      htmlFor="2160pbox"
-                      className={`rounded-md  ${titleKeys['2160p'] ? 'bg-green-600/50' : 'bg-neutral-700'} p-1`}
-                    >
-                      2160p
-                    </label>
-                  </div>
-                  <div>
-                    <input
-                      type="checkbox"
-                      name=""
-                      id="4kbox"
-                      value="4k"
-                      className="hidden"
-                      checked={titleKeys['4k']}
-                      onChange={(e) => handleCheckbox(e)}
-                    />
-
-                    <label
-                      htmlFor="4kbox"
-                      className={`rounded-md  ${titleKeys['4k'] ? 'bg-green-600/50' : 'bg-neutral-700'} p-1`}
-                    >
-                      4k
-                    </label>
-                  </div>
-                  <div>
-                    <input
-                      type="checkbox"
-                      name=""
-                      checked={titleKeys['1080p 10bit']}
-                      id="1080p10bitbox"
-                      value="1080p 10bit"
-                      className="hidden"
-                      onChange={(e) => handleCheckbox(e)}
-                    />
-                    <label
-                      htmlFor="1080p10bitbox"
-                      className={`rounded-md  ${titleKeys['1080p 10bit'] ? 'bg-green-600/50' : 'bg-neutral-700'} p-1`}
-                    >
-                      1080p 10bit
-                    </label>
-                  </div>
-                  <div>
-                    <input
-                      type="checkbox"
-                      name=""
-                      id="1080pbox"
-                      className="hidden"
-                      checked={titleKeys['1080p']}
-                      value="1080p"
-                      onChange={(e) => handleCheckbox(e)}
-                    />
-                    <label
-                      htmlFor="1080pbox"
-                      className={`rounded-md  ${titleKeys['1080p'] ? 'bg-green-600/50' : 'bg-neutral-700'} p-1`}
-                    >
-                      1080p
-                    </label>
-                  </div>
-                  <div>
-                    <input
-                      type="checkbox"
-                      name=""
-                      checked={titleKeys['x264']}
-                      id="x264box"
-                      className="hidden"
-                      value="x264"
-                      onChange={(e) => handleCheckbox(e)}
-                    />
-                    <label
-                      htmlFor="x264box"
-                      className={`rounded-md  ${titleKeys['x264'] ? 'bg-green-600/50' : 'bg-neutral-700'} p-1`}
-                    >
-                      x264
-                    </label>
-                  </div>
-                  <div>
-                    <input
-                      type="checkbox"
-                      name=""
-                      checked={titleKeys['HEVC']}
-                      id="hevcbox"
-                      className="hidden"
-                      value="HEVC"
-                      onChange={(e) => handleCheckbox(e)}
-                    />
-                    <label
-                      htmlFor="hevcbox"
-                      className={`rounded-md  ${titleKeys['HEVC'] ? 'bg-green-600/50' : 'bg-neutral-700'} p-1`}
-                    >
-                      HEVC
-                    </label>
-                  </div>
-
-                  <div>
-                    <input
-                      type="checkbox"
-                      name=""
-                      id="remuxbox"
-                      checked={titleKeys['REMUX']}
-                      value="REMUX"
-                      className="hidden"
-                      onChange={(e) => handleCheckbox(e)}
-                    />
-                    <label
-                      htmlFor="remuxbox"
-                      className={`rounded-md  ${titleKeys['REMUX'] ? 'bg-green-600/50' : 'bg-neutral-700'} p-1`}
-                    >
-                      REMUX
-                    </label>
-                  </div>
-                  <div>
-                    <input
-                      type="checkbox"
-                      name=""
-                      checked={titleKeys['HDR DoVi']}
-                      id="hdrdovibox"
-                      className="hidden"
-                      value="HDR DoVi"
-                      onChange={(e) => handleCheckbox(e)}
-                    />
-                    <label
-                      htmlFor="hdrdovibox"
-                      className={`rounded-md  ${titleKeys['HDR DoVi'] ? 'bg-green-600/50' : 'bg-neutral-700'} p-1`}
-                    >
-                      HDR DoVi
-                    </label>
-                  </div>
-                </div>
-                <button
-                  onClick={() =>
-                    handleItemCopy(
-                      `Download ${formData.title} (${formData.year}) ${
-                        formData.contentType === 'series'
-                          ? formData.seasonCount > 1
-                            ? `(Season 1 - ${formData.seasonCount}) `
-                            : '(Season 1) '
-                          : ''
-                      }${
-                        formData.audioType === 'Dual' || formData.audioType === 'Multi'
-                          ? `${formData.audioType} Audio {${audioLang}} `
-                          : `{${audioLang} Audio} `
-                      }${Object.keys(titleKeys)
-                        .filter((key) => titleKeys[key])
-                        .map((key) => `${key} `)
-                        .join('|| ')}${formData.printType} Esubs`
-                    )
-                  }
-                  className={`flex items-center ${isCopied ? 'bg-green-600' : 'bg-blue-600'} gap-1 rounded-md  p-1 text-sm font-bold transition-all duration-200 ${!isCopied && 'hover:bg-blue-700'}`}
-                >
-                  {isCopied ? 'Copied!' : 'Copy'}
-                </button>
-              </div>
-            </div>
+          <div className="col-span-2 flex flex-col gap-3 ">
+            <TitleGen formData={formData} />
             <EmbedCode formData={formData} fieldsCount={fields.length}></EmbedCode>
           </div>
         </div>
