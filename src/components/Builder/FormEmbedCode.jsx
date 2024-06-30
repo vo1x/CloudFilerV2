@@ -100,9 +100,9 @@ Here you can download <a href="https://uhdmovies.eu/1080p-uhd/"><strong>1080p x2
 
   return (
     <div className="relative flex flex-col content-center gap-3  ">
-      <div className=" max-h-svh min-h-svh w-full overflow-y-auto  ">
+      <div className=" max-h-[900px] w-full overflow-y-auto">
         <div
-          className="mb-56 whitespace-pre-wrap bg-white/80 p-5 text-black"
+          className="whitespace-pre-wrap bg-white/80 p-5 text-black"
           dangerouslySetInnerHTML={{
             __html: finalString
           }}

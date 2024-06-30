@@ -6,6 +6,8 @@ import Field from '../components/Builder/FormField';
 import Header from '../components/Builder/FormHeader';
 import TitleGen from '../components/Builder/TitleGen/TitleGen';
 import AudioInputField from '../components/Builder/AudioInputField';
+import Input from '../components/Builder/Input';
+import Title from '../components/Builder/TitleGen/Title';
 function FormBuilder() {
   const [fieldsData, setFieldsData] = useState([]);
   const [fields, setFields] = useState([]);
@@ -62,11 +64,14 @@ function FormBuilder() {
     setFormData((prevFormData) => ({ ...prevFormData, contentType: e.target.value.toLowerCase() }));
   };
 
-  const [fieldURL, setFieldURL] = useState('');
-
   const [extractResults, setExtractResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const apiKey = import.meta.env.VITE_GDRIVE_API_KEY;
+
+  const handleInputFieldChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
   const handleExtractButton = (folderURL) => {
     if (folderURL === '') {
@@ -88,7 +93,6 @@ function FormBuilder() {
       });
     }
 
-    //https://drive.google.com/file/d/1s72LKrT1-SAtx5tVdXvHxcjR7KO8F_an/view?usp=drive_link
     // const isFileUrl = /(?:\/(?:drive\/)?(?:u\/\d+\/)?file\/d\/[a-zA-Z0-9_-]+\/?)/.test(folderURL);
     const isFileUrl =
       /(?:\/(?:drive\/)?(?:u\/\d+\/)?(?:file\/d\/|uc\?id=)|https:\/\/drive\.usercontent\.google\.com\/download\?id=)[a-zA-Z0-9_-]+\/?/.test(
@@ -154,34 +158,21 @@ function FormBuilder() {
 
     fetchInfo(fID).then(() => setPrevFolderID((prevFolderID) => [...prevFolderID, fID]));
   };
-
-
-
-  const getReadableFS = (bytes) => {
-    if (bytes === 0) return '0 Bytes';
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-  };
-
-  const [isExpanded, setIsExpanded] = useState(true);
-
-  const toggleIsExpanded = useCallback(() => {
-    setIsExpanded((isExpanded) => !isExpanded);
-  }, []);
-
-  const handleSetAllTrue = (e) => {
-    const toBeUpdated = { ...titleKeys };
-    if (e.target.checked) Object.keys(toBeUpdated).forEach((key) => (toBeUpdated[key] = true));
-    else Object.keys(toBeUpdated).forEach((key) => (toBeUpdated[key] = false));
-    setTitleKeys(toBeUpdated);
-  };
+  const [titleKeys, setTitleKeys] = useState({
+    '2160p': false,
+    '4k': false,
+    '1080p': false,
+    '1080p 10bit': false,
+    x264: false,
+    HEVC: false,
+    REMUX: false,
+    'HDR DoVi': false
+  });
 
   return (
     <>
       <div className="grid max-h-svh place-items-center overflow-hidden p-4">
-        <div className="w-100vw grid grid-cols-3">
+        <div className="w-100vw grid grid-cols-2">
           <div className="flex max-h-svh flex-col gap-2 overflow-auto overflow-x-hidden p-5">
             <Header></Header>
             <div className="flex items-center gap-2">
@@ -198,42 +189,31 @@ function FormBuilder() {
                 <option value="series">Series</option>
               </select>
             </div>
-            <div>
-              <label htmlFor="">Title</label>
-              <input
+            <div className="mb-4 flex items-center gap-4">
+              <Input
+                label={'Title'}
                 value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                type="text"
-                className="ml-2 w-3/5 rounded-md border border-white/20 bg-white/5 p-2 text-sm outline-none transition-all duration-300 placeholder:text-white/50 focus:border-white/70"
+                name={'title'}
+                onChange={handleInputFieldChange}
+                type={'text'}
               />
-            </div>
-            <div>
-              <label htmlFor="">Year</label>
-              <input
+              <Input
+                label={'Year'}
                 value={formData.year}
-                type="number"
-                min={1}
-                onChange={(e) => setFormData({ ...formData, year: e.target.value })}
-                className="ml-2 w-max rounded-md border border-white/20 bg-white/5 p-2 text-sm outline-none transition-all duration-300 placeholder:text-white/50 focus:border-white/70"
+                name={'year'}
+                onChange={handleInputFieldChange}
+                type={'number'}
               />
-            </div>
-            {selectedTab === 'series' && (
-              <div>
-                <label
-                  htmlFor=""
-                  className={`${selectedTab === 'movie' ? 'text-neutral-500' : 'text-neutral-50'}`}
-                >
-                  Season Count
-                </label>
-                <input
+              {selectedTab === 'series' && (
+                <Input
+                  label={`Season Count`}
                   value={formData.seasonCount}
-                  onChange={(e) => setFormData({ ...formData, seasonCount: e.target.value })}
-                  type="number"
-                  min={1}
-                  className={`ml-2 w-max rounded-md border border-white/20 bg-white/5 p-2 text-sm outline-none transition-all duration-300 placeholder:text-white/50 focus:border-white/70 `}
+                  name={`seasonCount`}
+                  onChange={handleInputFieldChange}
+                  type={'number'}
                 />
-              </div>
-            )}
+              )}
+            </div>
 
             <div className="flex items-center gap-2">
               <label htmlFor="">Quality</label>
@@ -283,30 +263,31 @@ function FormBuilder() {
                 setAudioLang={handleAudioLangChange}
               />
             </div>
+            <div className="mt-4 flex items-center gap-4">
+              <Input
+                label={'Poster'}
+                value={formData.posterURL}
+                name={'posterURL'}
+                onChange={handleInputFieldChange}
+                type={'text'}
+                placeholder={'Image URL'}
+              />
 
-            <div>
-              <label htmlFor="">Poster URL</label>
-              <input
-                type="url"
-                name=""
-                id=""
-                className="ml-2 w-3/5 rounded-md border border-white/20 bg-white/5 p-2 text-sm outline-none transition-all duration-300 placeholder:text-white/50 focus:border-white/70"
-                onChange={(e) => setFormData({ ...formData, posterURL: e.target.value })}
+              <Input
+                label={'Trailer'}
+                value={formData.trailerURL}
+                name={'trailerURL'}
+                onChange={handleInputFieldChange}
+                placeholder={'Embed URL'}
+                type={'text'}
               />
             </div>
-
-            <div>
-              <label htmlFor="">Trailer URL</label>
-              <input
-                type="url"
-                name=""
-                id=""
-                className="ml-2 w-3/5 rounded-md border border-white/20 bg-white/5 p-2 text-sm outline-none transition-all duration-300 placeholder:text-white/50 focus:border-white/70"
-                onChange={(e) => setFormData({ ...formData, trailerURL: e.target.value })}
-              />
+            <div className="mt-4 flex flex-col items-start gap-2">
+              <span className="text-lg font-semibold">Title Generator</span>
+              <TitleGen titleKeys={titleKeys} setTitleKeys={setTitleKeys}></TitleGen>
             </div>
 
-            <div className="flex flex-col gap-3 rounded-md border border-neutral-700 bg-neutral-900 p-3">
+            <div className="mt-4 flex flex-col gap-3 rounded-md border border-neutral-700 bg-neutral-900 p-3">
               Fields: {fields.length}
               {/* Render existing fields */}
               {fields.map((field, i) => (
@@ -345,9 +326,9 @@ function FormBuilder() {
             </div>
           </div>
 
-          <div className="col-span-2 flex flex-col gap-3 ">
-            <TitleGen formData={formData} />
+          <div className="flex flex-col gap-3">
             <EmbedCode formData={formData} fieldsCount={fields.length}></EmbedCode>
+            <Title formData={formData} titleKeys={titleKeys} />
           </div>
         </div>
       </div>
