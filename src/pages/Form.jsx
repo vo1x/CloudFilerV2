@@ -326,9 +326,9 @@ function FormBuilder() {
             </div>
           </div>
 
-          <div className="flex flex-col gap-3">
-            <EmbedCode formData={formData} fieldsCount={fields.length}></EmbedCode>
+          <div className="flex h-screen flex-col gap-3 overflow-y-auto  ">
             <Title formData={formData} titleKeys={titleKeys} />
+            <EmbedCode formData={formData} fieldsCount={fields.length}></EmbedCode>
           </div>
         </div>
       </div>
