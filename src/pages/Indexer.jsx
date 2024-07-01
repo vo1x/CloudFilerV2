@@ -5,7 +5,7 @@ import Header from '../components/Header';
 function Indexer() {
   return (
     <>
-      <div className="grid place-items-center">
+      <div className="grid lg:place-items-center">
         <Header></Header>
         <SearchBar></SearchBar>
       </div>

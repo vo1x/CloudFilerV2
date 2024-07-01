@@ -94,10 +94,10 @@ function SearchBar() {
   return (
     <>
       <div>
-        <div className="flex place-content-center gap-3 ">
+        <div className="flex flex-col items-start gap-3 p-4 lg:flex-row lg:place-content-center lg:items-center ">
           <input
             type="text"
-            className=" ml-2 w-3/5 rounded-md border border-white/20 bg-white/5 p-2 outline-none transition-all duration-300 placeholder:text-white/50 focus:border-white/70"
+            className=" w-80 rounded-md border border-white/20 bg-white/5 p-2 text-sm outline-none transition-all duration-300 placeholder:text-white/50 focus:border-white/70 lg:ml-2 lg:w-3/5 lg:text-base"
             onChange={(e) => {
               setInputValue(e.target.value);
             }}
@@ -113,32 +113,34 @@ function SearchBar() {
               }
             }}
           />
-          <button
-            onClick={() => {
-              let folderURL = inputValue;
-              if (folderURL.endsWith('/')) {
-                folderURL = folderURL.slice(0, -1);
-              }
-              handleExtractButton(folderURL);
-            }}
-            className="flex items-center gap-1 rounded-md bg-blue-600 p-2 py-1 font-bold transition-all duration-300 hover:bg-blue-700"
-          >
-            {loading ? <FiLoader className=" animate-spin"></FiLoader> : null}
-            <span>Extract</span>
-          </button>
-          {extractResults.length > 0 ? (
+          <div className="flex gap-2">
             <button
               onClick={() => {
-                setExtractResults([]);
-                setInputValue('');
-                setPrevFolderID(undefined);
-                setLoading(false);
+                let folderURL = inputValue;
+                if (folderURL.endsWith('/')) {
+                  folderURL = folderURL.slice(0, -1);
+                }
+                handleExtractButton(folderURL);
               }}
-              className="rounded-md border border-red-500 p-2 py-1 font-bold text-red-500 outline-none transition-all duration-300 hover:bg-red-500 hover:text-white"
+              className="flex items-center gap-1 rounded-md bg-blue-600 p-2 py-1 text-sm font-semibold transition-all duration-300 hover:bg-blue-700 lg:text-base"
             >
-              <span>Clear</span>
+              {loading ? <FiLoader className=" animate-spin"></FiLoader> : null}
+              <span>Extract</span>
             </button>
-          ) : null}
+            {extractResults.length > 0 ? (
+              <button
+                onClick={() => {
+                  setExtractResults([]);
+                  setInputValue('');
+                  setPrevFolderID(undefined);
+                  setLoading(false);
+                }}
+                className="rounded-md border border-red-500 p-2 py-1 text-sm font-semibold text-red-500 outline-none transition-all duration-300 hover:bg-red-500 hover:text-white lg:text-base lg:font-bold"
+              >
+                <span>Clear</span>
+              </button>
+            ) : null}
+          </div>
         </div>
         {extractResults.length > 0 && <Result data={extractResults} />}
       </div>

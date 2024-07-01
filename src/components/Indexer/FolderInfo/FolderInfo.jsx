@@ -14,16 +14,16 @@ export default function FolderInfo({ folderData, episodeStrings, nameSortedMovie
   const { getReadableFS } = useFileSize();
 
   return (
-    <div className="relative h-max rounded-md border border-white/20 bg-white/5 p-3">
+    <div className="relative h-max max-w-96 rounded-md border border-white/20 bg-white/5 p-3 lg:max-w-screen-lg">
       <div className="flex items-center justify-between p-2">
-        <span className="text-xl font-bold">Folder Information</span>
+        <span className="font-bold lg:text-xl">Folder Information</span>
 
-        <button onClick={() => toggleIsExpanded} className="text-2xl">
+        <button onClick={() => toggleIsExpanded} className="lg:text-2xl">
           {!isExpanded ? <FiChevronDown /> : <FiChevronUp />}
         </button>
       </div>
 
-      <div className="mb-3  flex items-center justify-between border-b border-b-white/20 p-2 text-lg">
+      <div className="mb-2 flex items-center justify-between border-b border-b-white/20 p-2 lg:text-lg">
         <span>
           Found <span className="font-bold">{folderData.length}</span> Files
         </span>

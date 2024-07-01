@@ -7,7 +7,7 @@ function Result(props) {
   const [nameSortedMovieStrings] = useMovieStrings(props.data);
   return (
     <>
-      <div className=" flex flex-col gap-5 p-5 ">
+      <div className="flex flex-col gap-4 lg:p-4 ">
         <FolderInfo
           folderData={props.data}
           episodeStrings={episodeStrings}
