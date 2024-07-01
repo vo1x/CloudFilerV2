@@ -7,10 +7,10 @@ function FolderItem({ item, movieStrings, episodeStrings, index }) {
   const [copied, handleItemCopy] = useClipboard();
 
   const createURL = (name) => {
-    const seriesPattern = /^(.+?)\.S\d{2}\.\d{4}/i;
+    const seriesPattern = /^(.+?)(\s|\(|\.)/;
     const moviePattern = /^(.*?)(?:\.(19|20)\d{2})/;
 
-    let match = name.replace(/\./g, '').match(seriesPattern);
+    let match = name.match(seriesPattern);
     if (match) {
       return `https://uhdmovies.tel/search/${match[1].split('.').join('+').toLowerCase()}`;
     }
