@@ -99,7 +99,7 @@ Here you can download <a href="https://uhdmovies.eu/1080p-uhd/"><strong>1080p x2
 <strong><span style="color: #ff0000;">Note:</span></strong> We Do not host any files on our server. All files shared here are collected from the internet from various Encoders and hosted on third-party sites. We do not accept responsibility for content hosted on third-party websites. We just index those links which are already available on the internet.`;
 
   return (
-    <div className="relative flex flex-col content-center gap-3  ">
+    <div className="relative flex max-w-96 flex-col content-center gap-3 lg:max-w-full">
       <div className=" max-h-[900px] w-full overflow-y-auto">
         <div
           className="whitespace-pre-wrap bg-white/80 p-5 text-black"

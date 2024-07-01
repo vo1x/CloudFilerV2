@@ -10,8 +10,8 @@ function Title({ formData, titleKeys }) {
     });
   };
   return (
-    <div className="col-span-2 flex items-center gap-4 pr-4">
-      <span className="max-w-xl rounded-md border border-neutral-600 bg-neutral-900 p-2 text-lg font-bold">
+    <div className="col-span-2 flex max-w-96 flex-col items-start gap-4 pr-4 lg:w-full lg:max-w-xl lg:flex-row lg:items-center">
+      <span className="text-md max-w-96 rounded-md border border-neutral-600 bg-neutral-900 p-2 font-bold lg:w-full lg:max-w-xl lg:text-lg">
         {`Download ${formData.title} (${formData.year}) ${
           formData.contentType === 'series'
             ? formData.seasonCount > 1
@@ -46,7 +46,7 @@ function Title({ formData, titleKeys }) {
               .join('|| ')}${formData.printType} Esubs`
           )
         }
-        className={`flex w-20 items-center justify-center ${isCopied ? 'bg-green-600' : 'bg-blue-600'} gap-1 rounded-md  p-1 text-lg font-semibold transition-all duration-200 ${!isCopied && 'hover:bg-blue-700'}`}
+        className={`flex w-20 items-center justify-center ${isCopied ? 'bg-green-600' : 'bg-blue-600'} text-md gap-1  rounded-md p-1 font-semibold transition-all duration-200 lg:text-lg ${!isCopied && 'hover:bg-blue-700'}`}
       >
         {isCopied ? 'Copied!' : 'Copy'}
       </button>

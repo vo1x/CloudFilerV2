@@ -171,9 +171,9 @@ function FormBuilder() {
 
   return (
     <>
-      <div className="grid max-h-svh place-items-center overflow-hidden p-4">
-        <div className="w-100vw grid grid-cols-2">
-          <div className="flex max-h-svh flex-col gap-2 overflow-auto overflow-x-hidden p-5">
+      <div className="grid place-items-center overflow-hidden lg:max-h-svh lg:p-4">
+        <div className="max-w-screen lg:w-100vw flex flex-col lg:grid lg:grid-cols-2">
+          <div className="flex flex-col gap-2 overflow-auto overflow-x-hidden p-5 lg:max-h-svh">
             <Header></Header>
             <div className="flex items-center gap-2">
               <label htmlFor="" className="text-sm">
@@ -189,7 +189,7 @@ function FormBuilder() {
                 <option value="series">Series</option>
               </select>
             </div>
-            <div className="mb-4 flex items-center gap-4">
+            <div className="mb-4 flex flex-col gap-4 lg:flex-row lg:items-center">
               <Input
                 label={'Title'}
                 value={formData.title}
@@ -197,73 +197,78 @@ function FormBuilder() {
                 onChange={handleInputFieldChange}
                 type={'text'}
               />
-              <Input
-                label={'Year'}
-                value={formData.year}
-                name={'year'}
-                onChange={handleInputFieldChange}
-                type={'number'}
-              />
-              {selectedTab === 'series' && (
+              <div className="flex gap-4">
                 <Input
-                  label={`Season Count`}
-                  value={formData.seasonCount}
-                  name={`seasonCount`}
+                  label={'Year'}
+                  value={formData.year}
+                  name={'year'}
                   onChange={handleInputFieldChange}
                   type={'number'}
                 />
-              )}
+                {selectedTab === 'series' && (
+                  <Input
+                    label={`Season Count`}
+                    value={formData.seasonCount}
+                    name={`seasonCount`}
+                    onChange={handleInputFieldChange}
+                    type={'number'}
+                  />
+                )}
+              </div>
             </div>
 
-            <div className="flex items-center gap-2">
-              <label htmlFor="">Quality</label>
-              <select
-                name=""
-                id=""
-                className="rounded-md bg-neutral-700 p-1 text-sm outline-none"
-                value={formData.quality}
-                onChange={(e) => setFormData({ ...formData, quality: e.target.value })}
-              >
-                <option value="1080p">1080p</option>
-                <option value="2160p">2160p</option>
-              </select>
+            <div className="mb-4 flex gap-4">
+              <div className="flex items-center gap-2">
+                <label htmlFor="">Quality</label>
+                <select
+                  name=""
+                  id=""
+                  className="rounded-md bg-neutral-700 p-1 text-sm outline-none"
+                  value={formData.quality}
+                  onChange={(e) => setFormData({ ...formData, quality: e.target.value })}
+                >
+                  <option value="1080p">1080p</option>
+                  <option value="2160p">2160p</option>
+                </select>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <label htmlFor="">Print Type</label>
+                <select
+                  name=""
+                  id=""
+                  className="rounded-md bg-neutral-700 p-1 text-sm outline-none"
+                  value={formData.printType}
+                  onChange={(e) => setFormData({ ...formData, printType: e.target.value })}
+                >
+                  <option value="Web-DL">Web-DL</option>
+                  <option value="Bluray">Bluray</option>
+                </select>
+              </div>
             </div>
 
-            <div className="flex items-center gap-2">
-              <label htmlFor="">Print Type</label>
-              <select
-                name=""
-                id=""
-                className="rounded-md bg-neutral-700 p-1 text-sm outline-none"
-                value={formData.printType}
-                onChange={(e) => setFormData({ ...formData, printType: e.target.value })}
-              >
-                <option value="Web-DL">Web-DL</option>
-                <option value="Bluray">Bluray</option>
-              </select>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <label htmlFor="">Audio Type</label>
-              <select
-                name=""
-                id=""
-                className="rounded-md bg-neutral-700 p-1 text-sm outline-none"
-                value={formData.audioType}
-                onChange={(e) => setFormData({ ...formData, audioType: e.target.value })}
-              >
-                <option value="Single">Single</option>
-                <option value="Dual">Dual</option>
-                <option value="Multi">Multi</option>
-              </select>
-
+            <div className="flex flex-col items-start gap-2 lg:flex-row lg:items-center">
+              <div className="flex items-center gap-2">
+                <label htmlFor="">Audio Type</label>
+                <select
+                  name=""
+                  id=""
+                  className="rounded-md bg-neutral-700 p-1 text-sm outline-none"
+                  value={formData.audioType}
+                  onChange={(e) => setFormData({ ...formData, audioType: e.target.value })}
+                >
+                  <option value="Single">Single</option>
+                  <option value="Dual">Dual</option>
+                  <option value="Multi">Multi</option>
+                </select>
+              </div>
               <AudioInputField
                 audioType={formData.audioType}
                 defaultValue={'English'}
                 setAudioLang={handleAudioLangChange}
               />
             </div>
-            <div className="mt-4 flex items-center gap-4">
+            <div className="mt-4 flex flex-col gap-4 lg:flex-row lg:items-center">
               <Input
                 label={'Poster'}
                 value={formData.posterURL}
@@ -287,7 +292,7 @@ function FormBuilder() {
               <TitleGen titleKeys={titleKeys} setTitleKeys={setTitleKeys}></TitleGen>
             </div>
 
-            <div className="mt-4 flex flex-col gap-3 rounded-md border border-neutral-700 bg-neutral-900 p-3">
+            <div className="mt-4 flex max-w-5xl flex-col gap-3 rounded-md border border-neutral-700 bg-neutral-900 p-4">
               Fields: {fields.length}
               {/* Render existing fields */}
               {fields.map((field, i) => (
@@ -308,11 +313,11 @@ function FormBuilder() {
                 </div>
               ))}
               {/* Button to add a new field */}
-              <div className="flex items-center gap-2">
+              <div className="flex flex-col items-start gap-2 lg:flex-row lg:items-center">
                 <input
                   type="text"
                   placeholder="File or Folder URL"
-                  className="ml-2 w-3/5 rounded-md border border-white/20 bg-white/5 p-2 text-sm outline-none transition-all duration-300 placeholder:text-white/50 focus:border-white/70"
+                  className="w-3/5 rounded-md border border-white/20 bg-white/5 p-2 text-sm outline-none transition-all duration-300 placeholder:text-white/50 focus:border-white/70 lg:ml-2"
                   onChange={(e) => setInputValue(e.target.value)}
                   value={inputValue}
                 />
@@ -326,7 +331,7 @@ function FormBuilder() {
             </div>
           </div>
 
-          <div className="flex h-screen flex-col gap-3 overflow-y-auto  ">
+          <div className="flex flex-col gap-3 p-4 lg:h-screen lg:overflow-y-auto lg:p-0">
             <Title formData={formData} titleKeys={titleKeys} />
             <EmbedCode formData={formData} fieldsCount={fields.length}></EmbedCode>
           </div>
