@@ -22,7 +22,7 @@ function FolderItem({ item, movieStrings, episodeStrings, index }) {
   };
 
   return (
-    <div className="max-w-80 overflow-hidden rounded-md border border-white/20 bg-white/5 p-4 lg:max-w-full lg:overflow-auto">
+    <div className="max-w-96 overflow-hidden rounded-md border border-white/20 bg-white/5 p-4 lg:max-w-full lg:overflow-auto">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between lg:gap-0">
         <div>
           <div className="truncate">
@@ -70,7 +70,7 @@ function FolderItem({ item, movieStrings, episodeStrings, index }) {
             <a
               href={`${createURL(item.name)}`}
               target="_blank"
-              className="w-24 rounded-md border border-neutral-600 bg-neutral-600 p-1 text-sm outline-none lg:w-36 lg:text-base"
+              className="w-24 rounded-md border border-neutral-600 bg-neutral-600 p-1 text-center text-sm outline-none lg:w-36 lg:text-base"
             >
               Site Search
             </a>
