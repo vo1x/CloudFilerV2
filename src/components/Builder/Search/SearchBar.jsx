@@ -41,8 +41,9 @@ function SearchBar({ setFormData }) {
       title: data.title,
       year: data?.release_date.split('-')[0],
       posterURL: `https://image.tmdb.org/t/p/original/${data.poster_path}`,
-      trailerURL: `https://youtube.com/embed/${data?.videos[0]?.key}` || '',
-      contentType: mediaType === 'tv' ? 'series' : 'movie'
+      trailerURL: data?.videos[0]?.key ? `https://youtube.com/embed/${data.videos[0].key}` : '',
+      contentType: mediaType === 'tv' ? 'series' : 'movie',
+      seasonCount: mediaType === 'tv' ? data?.number_of_seasons : null
     }));
     setIsItemSelected(true);
     setSelectedItemID(data.id);
