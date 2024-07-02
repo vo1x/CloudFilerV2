@@ -10,8 +10,8 @@ function Title({ formData, titleKeys }) {
     });
   };
   return (
-    <div className="col-span-2 flex max-w-96 flex-col items-start gap-4 pr-4 lg:w-full lg:max-w-xl lg:flex-row lg:items-center">
-      <span className="text-md max-w-96 rounded-md border border-neutral-600 bg-neutral-900 p-2 font-bold lg:w-full lg:max-w-xl lg:text-lg">
+    <div className="col-span-2 flex max-w-96 flex-col items-start gap-4 pr-4 lg:w-full lg:max-w-5xl lg:flex-row lg:items-center">
+      <span className="text-md max-w-96 rounded-md border border-neutral-600 bg-neutral-900 p-2 font-bold lg:w-full lg:max-w-full lg:text-lg">
         {`Download ${formData.title} (${formData.year}) ${
           formData.contentType === 'series'
             ? formData.seasonCount > 1
