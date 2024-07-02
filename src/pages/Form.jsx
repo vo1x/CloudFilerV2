@@ -8,6 +8,7 @@ import TitleGen from '../components/Builder/TitleGen/TitleGen';
 import AudioInputField from '../components/Builder/AudioInputField';
 import Input from '../components/Builder/Input';
 import Title from '../components/Builder/TitleGen/Title';
+import SearchBar from '../components/Builder/Search/SearchBar';
 function FormBuilder() {
   const [fieldsData, setFieldsData] = useState([]);
   const [fields, setFields] = useState([]);
@@ -57,12 +58,6 @@ function FormBuilder() {
       fields: fieldsData
     }));
   }, [fieldsData]);
-
-  const [selectedTab, setSelectedTab] = useState('');
-  const handleContentSelect = (e) => {
-    setSelectedTab(e.target.value.toLowerCase());
-    setFormData((prevFormData) => ({ ...prevFormData, contentType: e.target.value.toLowerCase() }));
-  };
 
   const [extractResults, setExtractResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -175,20 +170,7 @@ function FormBuilder() {
         <div className="max-w-screen lg:w-100vw flex flex-col lg:grid lg:grid-cols-2">
           <div className="flex flex-col gap-2 overflow-auto overflow-x-hidden p-5 lg:max-h-svh">
             <Header></Header>
-            <div className="flex items-center gap-2">
-              <label htmlFor="" className="text-sm">
-                Content Type
-              </label>
-              <select
-                className="rounded-md bg-neutral-700 p-1 text-sm outline-none"
-                name=""
-                id=""
-                onChange={(e) => handleContentSelect(e)}
-              >
-                <option value="movie">Movie</option>
-                <option value="series">Series</option>
-              </select>
-            </div>
+            <SearchBar setFormData={setFormData}></SearchBar>
             <div className="mb-4 flex flex-col gap-4 lg:flex-row lg:items-center">
               <Input
                 label={'Title'}
@@ -205,7 +187,7 @@ function FormBuilder() {
                   onChange={handleInputFieldChange}
                   type={'number'}
                 />
-                {selectedTab === 'series' && (
+                {formData.contentType === 'series' && (
                   <Input
                     label={`Season Count`}
                     value={formData.seasonCount}

@@ -1,10 +1,11 @@
-function Input({ label, value, name, onChange, type, placeholder }) {
+function Input({ label, value, name, onChange, type, placeholder, ...rest }) {
   return (
     <div className=" flex flex-col items-start justify-center gap-2">
       <label htmlFor="" className="text-lg font-semibold">
         {label}
       </label>
       <input
+        {...rest}
         value={value}
         name={name}
         onChange={onChange}
