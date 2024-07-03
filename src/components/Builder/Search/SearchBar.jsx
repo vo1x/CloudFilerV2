@@ -4,6 +4,7 @@ import axios from 'axios';
 import ResultCard from './ResultCard';
 import { useDebounce } from 'use-debounce';
 import { toast } from 'react-toastify';
+import Results from './Results';
 
 function SearchBar({ setFormData }) {
   const [searchValue, setSearchValue] = useState('');
@@ -17,7 +18,7 @@ function SearchBar({ setFormData }) {
   const [searchResults, setSearchResults] = useState([]);
 
   const handleSearch = async (query) => {
-    const url = `https://uhdpjs.vercel.app/search?query=${query}`;
+    const url = `http://localhost:5000/search?query=${query}`;
     const { data } = await axios.get(url);
     setSearchResults(data);
   };
@@ -26,28 +27,7 @@ function SearchBar({ setFormData }) {
     handleSearch(searchValue);
   }, [debouncedValue]);
 
-  const [isItemSelected, setIsItemSelected] = useState(false);
-  const [selectedItemID, setSelectedItemID] = useState('');
-  const handleResultSelect = async (mediaType, mediaID) => {
-    if (mediaID === selectedItemID) {
-      toast.error('Already selected');
-      return;
-    }
-    const url = `https://uhdpjs.vercel.app/media/${mediaType}/${mediaID}`;
-    const { data } = await axios.get(url);
 
-    setFormData((prev) => ({
-      ...prev,
-      title: data.title,
-      year: data?.release_date.split('-')[0],
-      posterURL: `https://image.tmdb.org/t/p/original/${data.poster_path}`,
-      trailerURL: data?.videos[0]?.key ? `https://youtube.com/embed/${data.videos[0].key}` : '',
-      contentType: mediaType === 'tv' ? 'series' : 'movie',
-      seasonCount: mediaType === 'tv' ? data?.number_of_seasons : null
-    }));
-    setIsItemSelected(true);
-    setSelectedItemID(data.id);
-  };
 
   return (
     <div>
@@ -60,19 +40,9 @@ function SearchBar({ setFormData }) {
         type={'text'}
       ></Input>
       {searchResults && searchResults.length > 0 ? (
-        <div className="mt-4 flex max-h-96 max-w-96 flex-col overflow-y-auto rounded-md border border-white/20 bg-white/5">
-          {searchResults.map((result, i) => (
-            <ResultCard
-              key={i}
-              title={result.title || result.name}
-              description={result.overview}
-              type={result.media_type}
-              releaseDate={result.first_air_date || result.release_date}
-              thumbnail={result.backdrop_path}
-              onClick={() => handleResultSelect(result.media_type, result.id)}
-            />
-          ))}
-        </div>
+        <Results setFormData={setFormData} searchResults={searchResults}>
+         
+        </Results>
       ) : null}
     </div>
   );
