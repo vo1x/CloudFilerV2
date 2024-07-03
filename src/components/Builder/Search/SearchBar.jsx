@@ -17,7 +17,7 @@ function SearchBar({ setFormData }) {
   const [searchResults, setSearchResults] = useState([]);
 
   const handleSearch = async (query) => {
-    const url = `http://localhost:5000/search?query=${query}`;
+    const url = `https://uhdpjs.vercel.app/search?query=${query}`;
     const { data } = await axios.get(url);
     setSearchResults(data);
   };
@@ -33,7 +33,7 @@ function SearchBar({ setFormData }) {
       toast.error('Already selected');
       return;
     }
-    const url = `http://localhost:5000/media/${mediaType}/${mediaID}`;
+    const url = `https://uhdpjs.vercel.app/media/${mediaType}/${mediaID}`;
     const { data } = await axios.get(url);
 
     setFormData((prev) => ({
