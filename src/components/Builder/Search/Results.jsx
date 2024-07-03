@@ -5,6 +5,7 @@ import { X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import useMediaInfo from '../../../hooks/useMediaInfo';
+
 function Results({ setFormData, searchResults }) {
   const [isItemSelected, setIsItemSelected] = useState(false);
   const [selectedItemID, setSelectedItemID] = useState('');
@@ -12,7 +13,7 @@ function Results({ setFormData, searchResults }) {
 
   const handleResultSelect = async (mediaType, mediaID) => {
     if (mediaID === selectedItemID) {
-      if (isItemSelected) toast.error('Already selected');
+      //   if (isItemSelected) toast.error('Already selected');
       return;
     }
     // const url = `http://localhost:5000/media/${mediaType}/${mediaID}`;
@@ -44,8 +45,8 @@ function Results({ setFormData, searchResults }) {
         trailerURL: mediaInfo?.videos[0]?.key
           ? `https://youtube.com/embed/${mediaInfo.videos[0].key}`
           : '',
-        contentType: mediaInfo.media_type === 'tv' ? 'series' : 'movie',
-        seasonCount: mediaInfo.media_type === 'tv' ? mediaInfo?.number_of_seasons : null
+        contentType: selectedItemType === 'tv' ? 'series' : 'movie',
+        seasonCount: selectedItemType === 'tv' ? mediaInfo?.number_of_seasons : null
       }));
     }
   }, [mediaInfo]);
@@ -65,7 +66,7 @@ function Results({ setFormData, searchResults }) {
   };
 
   return (
-    <div className="relative mt-4 flex max-h-96 max-w-96 flex-col overflow-y-auto rounded-md border border-white/20 bg-white/5">
+    <div className="relative mt-4 flex max-h-96 max-w-80 flex-col overflow-y-auto rounded-md border border-white/20 bg-white/5">
       <div>
         {filteredResults.map((result, i) => (
           <ResultCard
