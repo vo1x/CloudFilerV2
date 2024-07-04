@@ -27,8 +27,6 @@ function SearchBar({ setFormData }) {
     handleSearch(searchValue);
   }, [debouncedValue]);
 
-
-
   return (
     <div>
       <Input
@@ -40,9 +38,11 @@ function SearchBar({ setFormData }) {
         type={'text'}
       ></Input>
       {searchResults && searchResults.length > 0 ? (
-        <Results setFormData={setFormData} searchResults={searchResults}>
-         
-        </Results>
+        <Results
+          setFormData={setFormData}
+          searchResults={searchResults}
+          searchValue={searchValue}
+        ></Results>
       ) : null}
     </div>
   );

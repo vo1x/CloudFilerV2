@@ -5,29 +5,18 @@ import { X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import useMediaInfo from '../../../hooks/useMediaInfo';
+import PosterSelector from '../Posters/PosterSelector';
 
-function Results({ setFormData, searchResults }) {
+function Results({ setFormData, searchResults, searchValue }) {
   const [isItemSelected, setIsItemSelected] = useState(false);
   const [selectedItemID, setSelectedItemID] = useState('');
   const [selectedItemType, setSelectedItemType] = useState('');
 
   const handleResultSelect = async (mediaType, mediaID) => {
     if (mediaID === selectedItemID) {
-      //   if (isItemSelected) toast.error('Already selected');
       return;
     }
-    // const url = `http://localhost:5000/media/${mediaType}/${mediaID}`;
-    // const { data } = await axios.get(url);
 
-    // setFormData((prev) => ({
-    //   ...prev,
-    //   title: data.title,
-    //   year: data?.release_date.split('-')[0],
-    //   posterURL: `https://image.tmdb.org/t/p/original/${data.poster_path}`,
-    //   trailerURL: data?.videos[0]?.key ? `https://youtube.com/embed/${data.videos[0].key}` : '',
-    //   contentType: mediaType === 'tv' ? 'series' : 'movie',
-    //   seasonCount: mediaType === 'tv' ? data?.number_of_seasons : null
-    // }));
     setIsItemSelected(true);
     setSelectedItemID(mediaID);
     setSelectedItemType(mediaType);
@@ -46,7 +35,8 @@ function Results({ setFormData, searchResults }) {
           ? `https://youtube.com/embed/${mediaInfo.videos[0].key}`
           : '',
         contentType: selectedItemType === 'tv' ? 'series' : 'movie',
-        seasonCount: selectedItemType === 'tv' ? mediaInfo?.number_of_seasons : null
+        seasonCount: selectedItemType === 'tv' ? mediaInfo?.number_of_seasons : null,
+        posters: mediaInfo.posters
       }));
     }
   }, [mediaInfo]);
@@ -60,33 +50,41 @@ function Results({ setFormData, searchResults }) {
     else setFilteredResults(searchResults);
   }, [searchResults, selectedItemID, isItemSelected]);
 
+  useEffect(() => {
+    setIsItemSelected(false);
+    setSelectedItemID('');
+  }, [searchResults]);
+
   const handleItemUnselect = () => {
     setIsItemSelected(false);
     setSelectedItemID('');
   };
 
   return (
-    <div className="relative mt-4 flex max-h-96 max-w-80 flex-col overflow-y-auto rounded-md border border-white/20 bg-white/5">
-      <div>
-        {filteredResults.map((result, i) => (
-          <ResultCard
-            key={i}
-            title={result.title || result.name}
-            description={result.overview}
-            type={result.media_type}
-            releaseDate={result.first_air_date || result.release_date}
-            thumbnail={result.backdrop_path}
-            onClick={() => handleResultSelect(result.media_type, result.id)}
-            isSelected={result.id === selectedItemID}
-            handleItemUnselect={handleItemUnselect}
-          />
-        ))}
-      </div>
-      {isItemSelected && (
-        <div className="absolute right-0" onClick={() => handleItemUnselect()}>
-          <X></X>
+    <div>
+      <div className="relative mt-4 flex max-h-96 max-w-80 flex-col overflow-y-auto rounded-md border border-white/20 bg-white/5">
+        <div>
+          {filteredResults.map((result, i) => (
+            <ResultCard
+              key={i}
+              title={result.title || result.name}
+              description={result.overview}
+              type={result.media_type}
+              releaseDate={result.first_air_date || result.release_date}
+              thumbnail={result.backdrop_path}
+              onClick={() => handleResultSelect(result.media_type, result.id)}
+              isSelected={result.id === selectedItemID}
+              handleItemUnselect={handleItemUnselect}
+            />
+          ))}
         </div>
-      )}
+        {isItemSelected && (
+          <div className="absolute right-0" onClick={() => handleItemUnselect()}>
+            <X></X>
+          </div>
+        )}
+      </div>
+      {/* {isItemSelected && mediaInfo && <PosterSelector posters={mediaInfo?.posters} />} */}
     </div>
   );
 }

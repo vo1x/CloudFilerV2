@@ -9,6 +9,7 @@ import AudioInputField from '../components/Builder/AudioInputField';
 import Input from '../components/Builder/Input';
 import Title from '../components/Builder/TitleGen/Title';
 import SearchBar from '../components/Builder/Search/SearchBar';
+import PosterSelector from '../components/Builder/Posters/PosterSelector';
 function FormBuilder() {
   const [fieldsData, setFieldsData] = useState([]);
   const [fields, setFields] = useState([]);
@@ -35,7 +36,9 @@ function FormBuilder() {
     posterURL: '',
     trailerURL: '',
     fields: fieldsData,
-    contentType: 'movie'
+    contentType: 'movie',
+    posters: [],
+    itemSelected: false
   });
 
   const handleAudioLangChange = (lang) => {
@@ -250,16 +253,18 @@ function FormBuilder() {
                 setAudioLang={handleAudioLangChange}
               />
             </div>
-            <div className="mt-4 flex flex-col gap-4 lg:flex-row lg:items-center">
-              <Input
-                label={'Poster'}
-                value={formData.posterURL}
-                name={'posterURL'}
-                onChange={handleInputFieldChange}
-                type={'text'}
-                placeholder={'Image URL'}
-              />
+            <div className="flex flex-col gap-4 mt-4">
+              <span className="text-lg font-semibold">Poster</span>
 
+              {formData.posters !== 0 && (
+                <PosterSelector
+                  posters={formData.posters}
+                  setFormData={setFormData}
+                  itemSelected={formData.itemSelected}
+                ></PosterSelector>
+              )}
+            </div>
+            <div className="mt-4">
               <Input
                 label={'Trailer'}
                 value={formData.trailerURL}
