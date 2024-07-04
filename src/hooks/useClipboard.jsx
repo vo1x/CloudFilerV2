@@ -3,9 +3,10 @@ import { toast } from 'react-toastify';
 export default function useClipboard() {
   const [copied, setCopied] = useState(false);
 
-  const handleItemCopy = (type, item) => {
+  const handleItemCopy = (type, item, enableToast) => {
     setCopied(false);
     navigator.clipboard.writeText(item).then(() => {
+      setCopied(true);
       const notify = () => {
         toast.success(`${type} copied!`, {
           theme: 'colored',
@@ -13,8 +14,12 @@ export default function useClipboard() {
           position: 'bottom-right'
         });
       };
-      setCopied(true);
-      notify();
+      setTimeout(() => {
+        setCopied(false);
+      }, 2000);
+      if (enableToast) {
+        notify();
+      }
     });
   };
 

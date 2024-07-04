@@ -7,9 +7,13 @@ import {
   ChevronRightCircle,
   ChevronUp,
   DownloadIcon,
-  Link
+  Link,
+  ClipboardCheck
 } from 'lucide-react';
+
+import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import useClipboard from '../../../hooks/useClipboard';
 function PosterSelector({ posters, setFormData }) {
   const [posterPathInView, setPosterPathInView] = useState(0);
   const [filteredPosters, setFilteredPosters] = useState(posters);
@@ -20,6 +24,7 @@ function PosterSelector({ posters, setFormData }) {
       setPosterPathInView((prev) => prev + 1);
     }
   };
+  const [copied, handleItemCopy] = useClipboard();
 
   const handlePrevButton = () => {
     if (posterPathInView <= 0) {
@@ -46,7 +51,7 @@ function PosterSelector({ posters, setFormData }) {
   useEffect(() => {
     setFormData((prev) => ({
       ...prev,
-      posterURL: `https://image.tmdb.org/t/p/original/${filteredPosters[posterPathInView]?.file_path}`
+      posterURL: `https://image.tmdb.org/t/p/original${filteredPosters[posterPathInView]?.file_path}`
     }));
   }, [posterPathInView]);
 
@@ -57,9 +62,21 @@ function PosterSelector({ posters, setFormData }) {
           <button className="rounded-md bg-blue-600 p-2 font-semibold">
             <DownloadIcon></DownloadIcon>
           </button>
-          <button className="rounded-md bg-blue-600 p-2 font-semibold">
-            <Link></Link>
-          </button>
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            initial={{ backgroundColor: '#2563eb' }}
+            animate={copied ? { backgroundColor: '#16a34a' } : ''}
+            onClick={() =>
+              handleItemCopy(
+                'Poster URL',
+                `https://image.tmdb.org/t/p/original${filteredPosters[posterPathInView]?.file_path}`
+              )
+            }
+            className={`rounded-md  p-2 font-semibold`}
+          >
+            {copied ? <ClipboardCheck /> : <Link />}
+          </motion.button>
         </div>
         <div className="flex min-w-44 max-w-44 overflow-hidden">
           <Poster
@@ -70,8 +87,7 @@ function PosterSelector({ posters, setFormData }) {
         <div className="flex flex-col items-center gap-4">
           <Button btnText={<ChevronLeft size={35} onClick={handlePrevButton} />} />
           <div className="text-lg font-semibold">
-            {' '}
-            {`${posterPathInView + 1}/${posters.slice(0, 5).length}`}
+            {`${posters.length <= 0 ? 0 : posterPathInView + 1}/${posters.slice(0, 5).length}`}
           </div>
           <Button btnText={<ChevronRight size={35} onClick={handleNextButton} />} />
         </div>
