@@ -78,12 +78,14 @@ function PosterSelector({ posters, setFormData, contentTitle }) {
       <div className="flex max-w-max items-center justify-between gap-4">
         {filteredPosters.length > 0 && (
           <div className="flex flex-col gap-4">
-            <button
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
               className="rounded-md bg-blue-600 p-2 font-semibold"
               onClick={() => uploadImage(filteredPosters[posterPathInView]?.file_path)}
             >
               {isLoading ? <RiLoader4Line className="animate-spin" /> : <DownloadIcon />}
-            </button>
+            </motion.button>
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
