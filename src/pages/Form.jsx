@@ -38,7 +38,9 @@ function FormBuilder() {
     fields: fieldsData,
     contentType: 'movie',
     posters: [],
-    itemSelected: false
+    itemSelected: false,
+    ongoing: false,
+    latestEpisode: 0
   });
 
   const handleAudioLangChange = (lang) => {

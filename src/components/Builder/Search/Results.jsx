@@ -32,7 +32,9 @@ function Results({ setFormData, searchResults, searchValue }) {
           : '',
         contentType: selectedItemType === 'tv' ? 'series' : 'movie',
         seasonCount: selectedItemType === 'tv' ? mediaInfo?.number_of_seasons : null,
-        posters: mediaInfo.posters
+        posters: mediaInfo.posters,
+        ongoing: mediaInfo.in_production,
+        latestEpisode: mediaInfo?.last_episode_to_air?.episode_number
       }));
     }
   }, [mediaInfo]);
