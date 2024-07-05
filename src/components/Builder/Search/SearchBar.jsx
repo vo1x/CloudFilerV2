@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
 import Input from '../Input';
 import axios from 'axios';
-import ResultCard from './ResultCard';
 import { useDebounce } from 'use-debounce';
-import { toast } from 'react-toastify';
 import Results from './Results';
 
 function SearchBar({ setFormData }) {
@@ -18,7 +16,7 @@ function SearchBar({ setFormData }) {
   const [searchResults, setSearchResults] = useState([]);
 
   const handleSearch = async (query) => {
-    const url = `http://localhost:5000/search?query=${query}`;
+    const url = `/search?query=${query}`;
     const { data } = await axios.get(url);
     setSearchResults(data);
   };

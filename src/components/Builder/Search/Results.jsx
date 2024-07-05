@@ -1,11 +1,7 @@
-import { toast } from 'react-toastify';
 import ResultCard from './ResultCard';
-import axios from 'axios';
 import { X } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
 import useMediaInfo from '../../../hooks/useMediaInfo';
-import PosterSelector from '../Posters/PosterSelector';
 
 function Results({ setFormData, searchResults, searchValue }) {
   const [isItemSelected, setIsItemSelected] = useState(false);
@@ -84,7 +80,6 @@ function Results({ setFormData, searchResults, searchValue }) {
           </div>
         )}
       </div>
-      {/* {isItemSelected && mediaInfo && <PosterSelector posters={mediaInfo?.posters} />} */}
     </div>
   );
 }

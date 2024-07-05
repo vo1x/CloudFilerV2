@@ -1,5 +1,3 @@
-import { X } from 'lucide-react';
-
 function ResultCard({
   title,
   description,
@@ -27,7 +25,6 @@ function ResultCard({
           <span>{releaseDate}</span>
         </div>
       </div>
-     
     </div>
   );
 }

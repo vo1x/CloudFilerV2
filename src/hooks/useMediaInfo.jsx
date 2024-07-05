@@ -4,7 +4,7 @@ import axios from 'axios';
 export default function useMediaInfo(mediaType, mediaID) {
   const fetchInfo = async () => {
     try {
-      const { data } = await axios.get(`http://localhost:5000/media/${mediaType}/${mediaID}`);
+      const { data } = await axios.get(`/media/${mediaType}/${mediaID}`);
       // console.log(data);
       return data;
     } catch (error) {

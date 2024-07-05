@@ -253,7 +253,7 @@ function FormBuilder() {
                 setAudioLang={handleAudioLangChange}
               />
             </div>
-            <div className="flex flex-col justify-between gap-8 lg:gap-20 lg:flex-row">
+            <div className="flex flex-col justify-between gap-8 lg:flex-row lg:gap-20">
               <div className="mt-4 flex flex-col gap-4">
                 <span className="text-lg font-semibold">Poster</span>
 
@@ -262,6 +262,7 @@ function FormBuilder() {
                     posters={formData.posters}
                     setFormData={setFormData}
                     itemSelected={formData.itemSelected}
+                    contentTitle={formData?.title}
                   ></PosterSelector>
                 )}
               </div>
