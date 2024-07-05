@@ -253,16 +253,22 @@ function FormBuilder() {
                 setAudioLang={handleAudioLangChange}
               />
             </div>
-            <div className="flex flex-col gap-4 mt-4">
-              <span className="text-lg font-semibold">Poster</span>
+            <div className="flex flex-col justify-between gap-8 lg:gap-20 lg:flex-row">
+              <div className="mt-4 flex flex-col gap-4">
+                <span className="text-lg font-semibold">Poster</span>
 
-              {formData.posters !== 0 && (
-                <PosterSelector
-                  posters={formData.posters}
-                  setFormData={setFormData}
-                  itemSelected={formData.itemSelected}
-                ></PosterSelector>
-              )}
+                {formData.posters !== 0 && (
+                  <PosterSelector
+                    posters={formData.posters}
+                    setFormData={setFormData}
+                    itemSelected={formData.itemSelected}
+                  ></PosterSelector>
+                )}
+              </div>
+              <div className="mt-4 flex flex-col items-start gap-2">
+                <span className="text-lg font-semibold">Title Generator</span>
+                <TitleGen titleKeys={titleKeys} setTitleKeys={setTitleKeys}></TitleGen>
+              </div>
             </div>
             <div className="mt-4">
               <Input
@@ -273,10 +279,6 @@ function FormBuilder() {
                 placeholder={'Embed URL'}
                 type={'text'}
               />
-            </div>
-            <div className="mt-4 flex flex-col items-start gap-2">
-              <span className="text-lg font-semibold">Title Generator</span>
-              <TitleGen titleKeys={titleKeys} setTitleKeys={setTitleKeys}></TitleGen>
             </div>
 
             <div className="mt-4 flex max-w-5xl flex-col gap-3 rounded-md border border-neutral-700 bg-neutral-900 p-4">
