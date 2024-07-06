@@ -5,9 +5,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Indexer from './pages/Indexer';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import axios from 'axios';
 
-axios.defaults.baseURL = 'https://uhdpjs.vercel.app';
 
 const queryClient = new QueryClient();
 function App() {
