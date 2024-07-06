@@ -1,5 +1,5 @@
-import useFileSize from '../../../hooks/useFileSize';
-import useClipboard from '../../../hooks/useClipboard';
+import useFileSize from '../../hooks/useFileSize';
+import useClipboard from '../../hooks/useClipboard';
 
 function FolderItem({ item, movieStrings, episodeStrings, index }) {
   console.log(item);
@@ -28,7 +28,7 @@ function FolderItem({ item, movieStrings, episodeStrings, index }) {
           <div className="truncate">
             <span
               className="text-ellipsis text-sm font-bold hover:cursor-pointer hover:text-blue-200 lg:text-base"
-              onClick={(e) => handleItemCopy('File Name', e.target.innerText)}
+              onClick={(e) => handleItemCopy('File Name', e.target.innerText, true)}
             >
               {item.name}
             </span>
@@ -36,7 +36,7 @@ function FolderItem({ item, movieStrings, episodeStrings, index }) {
           <div>
             <span
               className="text-md  hover:cursor-pointer hover:text-blue-200 lg:text-base"
-              onClick={(e) => handleItemCopy('File Size', e.target.innerText)}
+              onClick={(e) => handleItemCopy('File Size', e.target.innerText, true)}
             >
               {getReadableFS(item.size)}
             </span>
@@ -44,7 +44,7 @@ function FolderItem({ item, movieStrings, episodeStrings, index }) {
           <div className="truncate">
             <span
               className="text-ellipsis text-sm hover:cursor-pointer hover:text-blue-200 lg:text-base"
-              onClick={(e) => handleItemCopy('File URL', e.target.innerText)}
+              onClick={(e) => handleItemCopy('File URL', e.target.innerText, true)}
             >
               {item.webContentLink}
             </span>
@@ -56,13 +56,13 @@ function FolderItem({ item, movieStrings, episodeStrings, index }) {
 
           <div className="flex flex-wrap gap-2 lg:flex-col lg:flex-nowrap">
             <button
-              onClick={(e) => handleItemCopy(e.target.innerText, movieStrings[index])}
+              onClick={(e) => handleItemCopy(e.target.innerText, movieStrings[index], true)}
               className="w-24 rounded-md border border-neutral-600 bg-neutral-600 p-1 text-sm outline-none lg:w-36 lg:text-base"
             >
               Movie Code
             </button>
             <button
-              onClick={(e) => handleItemCopy(e.target.innerText, episodeStrings[index])}
+              onClick={(e) => handleItemCopy(e.target.innerText, episodeStrings[index], true)}
               className="w-24 rounded-md border border-neutral-600 bg-neutral-600 p-1 text-sm outline-none lg:w-36 lg:text-base"
             >
               Series Code

@@ -3,9 +3,9 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { useCallback, useState } from 'react';
 import Toggle from 'react-toggle';
 import './ReactToggle.css';
-import useFileSize from '../../hooks/useFileSize';
-import useClipboard from '../../hooks/useClipboard';
-import useContentStrings from '../../hooks/useContentStrings';
+import useFileSize from '../hooks/useFileSize';
+import useClipboard from '../hooks/useClipboard';
+import useContentStrings from '../hooks/useContentStrings';
 
 function EmbedCode(props) {
   const { getReadableFS } = useFileSize();
@@ -49,7 +49,7 @@ function EmbedCode(props) {
     <div className="flex h-max max-w-96 flex-col content-center gap-3 rounded-md border border-white/20 bg-white/5 p-5 lg:w-max lg:max-w-max">
       <span className=" text-center text-xl font-bold lg:text-3xl">Embed Code</span>
       <Tabs>
-        <div className="flex flex-col items-start justify-center gap-4 lg:flex-row lg:items-center mb-4 lg:justify-between lg:gap-0">
+        <div className="mb-4 flex flex-col items-start justify-center gap-4 lg:flex-row lg:items-center lg:justify-between lg:gap-0">
           <TabList className="my-3 flex w-max rounded-md border border-white/20 bg-white/5 text-sm ">
             <Tab
               className={`w-max cursor-pointer rounded-l-md px-5 py-2 ${activeTabIndex === 0 ? 'bg-white text-black' : ''}`}
@@ -113,7 +113,8 @@ function EmbedCode(props) {
               onClick={() =>
                 handleItemCopy(
                   'Embed Code',
-                  activeTabIndex === 0 ? movieStrings.join('') : seriesString
+                  activeTabIndex === 0 ? movieStrings.join('') : seriesString,
+                  true
                 )
               }
               className="absolute right-0 top-0 mr-4 mt-4 text-xl text-white/50  hover:text-white"

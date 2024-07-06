@@ -1,5 +1,5 @@
 import { ToastContainer } from 'react-toastify';
-import SearchBar from '../components/Indexer/SearchBar';
+import SearchBar from '../components/SearchBar';
 import Header from '../components/Header';
 
 function Indexer() {

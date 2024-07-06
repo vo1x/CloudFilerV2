@@ -1,7 +1,7 @@
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import { useState } from 'react';
 import FolderItem from './FolderItem';
-import useFileSize from '../../../hooks/useFileSize';
+import useFileSize from '../../hooks/useFileSize';
 // import useFileInformation from '../hooks/useFileInformation'; Maybe will use in the future
 export default function FolderInfo({ folderData, episodeStrings, nameSortedMovieStrings }) {
   const toggleIsExpanded = () => {
