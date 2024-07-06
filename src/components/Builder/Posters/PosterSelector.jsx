@@ -56,8 +56,6 @@ function PosterSelector({ posters, setFormData, contentTitle }) {
     if (posters) {
       const englishPosters = posters.filter((poster) => poster.iso_639_1 === 'en');
 
-      console.log(englishPosters);
-
       if (englishPosters.length === 0) {
         setFilteredPosters(posters.slice(0, 5));
       } else {

@@ -22,7 +22,9 @@ function SearchBar({ setFormData }) {
   };
 
   useEffect(() => {
-    handleSearch(searchValue);
+    if (debouncedValue !== '') {
+      handleSearch(searchValue);
+    }
   }, [debouncedValue]);
 
   return (
