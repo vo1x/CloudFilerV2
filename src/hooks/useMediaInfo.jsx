@@ -17,7 +17,7 @@ export default function useMediaInfo(mediaType, mediaID) {
     queryKey: [`${mediaID}-data`],
     queryFn: fetchInfo,
     staleTime: Infinity,
-    enabled: !!mediaID && !!mediaType && !!mediaID !== ''
+    enabled: !!mediaID && !!mediaType && !!mediaID !== '' && !!mediaType !== ''
   });
 
   return [mediaInfo, isError];
