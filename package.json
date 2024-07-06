@@ -1,7 +1,7 @@
 {
-  "name": "cloudfilerv3",
+  "name": "cloudfiler",
   "private": true,
-  "version": "1.0.3",
+  "version": "2.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -50,6 +50,14 @@
   },
   "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
   "main": "postcss.config.js",
-  "author": "",
-  "license": "ISC"
+  "author": "volx",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vo1x/CloudFilerV2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vo1x/CloudFilerV2/issues"
+  },
+  "homepage": "https://github.com/vo1x/CloudFilerV2#readme"
 }
