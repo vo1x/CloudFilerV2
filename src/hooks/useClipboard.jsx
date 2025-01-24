@@ -1,18 +1,14 @@
-import { useCallback, useState } from 'react';
-import { toast } from 'react-toastify';
+import { useState } from 'react';
+import { toast } from 'sonner';
 export default function useClipboard() {
   const [copied, setCopied] = useState(false);
 
-  const handleItemCopy = useCallback((type, item, enableToast) => {
+  const handleItemCopy = (type, item, enableToast) => {
     setCopied(false);
     navigator.clipboard.writeText(item).then(() => {
       setCopied(true);
       const notify = () => {
-        toast.success(`${type} copied!`, {
-          theme: 'colored',
-          autoClose: 2000,
-          position: 'top-right'
-        });
+        toast.success(`${type} copied!`);
       };
       setTimeout(() => {
         setCopied(false);
@@ -21,7 +17,7 @@ export default function useClipboard() {
         notify();
       }
     });
-  }, []);
+  };
 
   return [copied, handleItemCopy];
 }

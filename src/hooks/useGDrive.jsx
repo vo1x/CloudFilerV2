@@ -47,42 +47,42 @@ const useGDrive = () => {
 
   const fetchGDriveDetails = async (url) => {
     setIsError(false);
-    setIsFetching(true); 
-  
+    setIsFetching(true);
+
     try {
       const resourceID = extractGDriveId(url);
       const isFolder = url.includes('/folders/');
-  
+
       const baseUrl = `https://www.googleapis.com/drive/v3/files/${resourceID}`;
       const fieldsParam = isFolder
         ? '?fields=id,name&supportsAllDrives=true'
         : '?supportsAllDrives=true&includeItemsFromAllDrives=true&fields=id,name,size,webContentLink,mimeType';
-  
+
       const resourceResponse = await fetch(`${baseUrl}${fieldsParam}&key=${apiKey}`);
       if (!resourceResponse.ok) {
         throw new Error(resourceResponse.status === 404 ? 'Invalid URL' : 'Failed to fetch data');
       }
-  
+
       const resourceData = await resourceResponse.json();
-  
+
       const files = [];
       if (isFolder) {
         const contentsResponse = await fetch(
           `https://www.googleapis.com/drive/v3/files?q='${resourceID}'+in+parents&supportsAllDrives=true&includeItemsFromAllDrives=true&pageSize=1000&orderBy=name&fields=files(id,name,size,webContentLink,mimeType)&key=${apiKey}`
         );
         const contentsData = await contentsResponse.json();
-  
+
         contentsData.files.forEach((item) => {
-          
           files.push({
             ...item,
-            mimeType: item.mimeType === 'application/vnd.google-apps.folder' ? 'folder' : item.mimeType
+            mimeType:
+              item.mimeType === 'application/vnd.google-apps.folder' ? 'folder' : item.mimeType
           });
         });
-  
+
         setIsFetching(false);
-        setIsFetched(true); 
-  
+        setIsFetched(true);
+
         return {
           folderName: resourceData.name,
           folderID: resourceData.id,
@@ -90,12 +90,17 @@ const useGDrive = () => {
         };
       } else {
         setIsFetching(false);
-        setIsFetched(true); 
+        setIsFetched(true);
         return {
-          files: [{
-            ...resourceData,
-            mimeType: resourceData.mimeType === 'application/vnd.google-apps.folder' ? 'folder' : resourceData.mimeType
-          }]
+          files: [
+            {
+              ...resourceData,
+              mimeType:
+                resourceData.mimeType === 'application/vnd.google-apps.folder'
+                  ? 'folder'
+                  : resourceData.mimeType
+            }
+          ]
         };
       }
     } catch (error) {
@@ -106,7 +111,6 @@ const useGDrive = () => {
       return null;
     }
   };
-  
 
   return {
     fetchGDriveDetails,

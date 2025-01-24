@@ -1,8 +1,13 @@
 import { memo } from 'react';
 
 import Row from './Row';
+import useContentStrings from '../../hooks/useContentStrings';
 
 const FileTable = memo(({ extractResults }) => {
+  console.log(extractResults);
+  const { movieStrings, episodeStrings } = useContentStrings(
+    extractResults.filter((item) => item.mimeType !== 'folder')
+  );
   return (
     <div className="h-full overflow-auto pr-6">
       <table className="w-full table-auto">
@@ -15,9 +20,18 @@ const FileTable = memo(({ extractResults }) => {
           </tr>
         </thead>
         <tbody>
-          {extractResults.map((item, i) => (
-            <Row rowData={item} key={i}></Row>
-          ))}
+          {extractResults.map((item, i) =>
+            item.mimeType !== 'folder' ? (
+              <Row
+                rowData={item}
+                key={i}
+                movieString={movieStrings[i]}
+                seriesString={episodeStrings[i]}
+              />
+            ) : (
+              <Row rowData={item} key={i} />
+            )
+          )}
         </tbody>
       </table>
     </div>

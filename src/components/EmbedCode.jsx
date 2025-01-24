@@ -13,7 +13,7 @@ function EmbedCode(props) {
 
   const [copied, handleItemCopy] = useClipboard();
   const [customValue, setCustomValue] = useState(1);
-  const [movieStrings, episodeStrings, totalSz] = useContentStrings(props.data, customValue);
+  const {movieStrings, episodeStrings, totalSz} = useContentStrings(props.data, customValue);
 
   const filteredEpisodesList = props.data.filter(
     (episode) =>

@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { SearchIcon, XIcon, Loader2 } from 'lucide-react';
 
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 
 import useGDrive from '../hooks/useGDrive';
 
@@ -17,50 +17,37 @@ function SearchBar({ extractResults, setExtractResults }) {
     }
 
     if (folderURL === '') {
-      return toast.error('Folder URL is required', {
-        theme: 'colored',
-        autoClose: 2000,
-        position: 'top-right'
-      });
-    }
-
-    const currentFolderID = extractGDriveId(folderURL);
-    if (currentFolderID === prevFolderID) {
-      return toast.info('This folder has already been processed', {
-        theme: 'colored',
-        autoClose: 2000,
-        position: 'top-right'
-      });
+      return toast.error('Folder URL is required');
     }
 
     try {
+      try {
+        const currentFolderID = extractGDriveId(folderURL);
+
+        if (currentFolderID === prevFolderID) {
+          return toast.warning('This folder has already been processed');
+        }
+
+        setPrevFolderID(currentFolderID);
+      } catch (error) {
+        console.error('Error extracting Google Drive ID:', error.message);
+        return toast.error(`${error.message}`);
+      }
+
       const data = await fetchGDriveDetails(folderURL);
 
       if (isError) {
-        return toast.error('Error retrieving folder details', {
-          theme: 'colored',
-          autoClose: 2000,
-          position: 'top-right'
-        });
+        return toast.error('Error retrieving folder details');
       }
 
       if (data) {
-        setPrevFolderID(data.folderID);
         setExtractResults(data);
         console.log('Retrieved data:', data);
-        return toast.success('Folder details retrieved successfully', {
-          theme: 'colored',
-          autoClose: 2000,
-          position: 'top-right'
-        });
+        return toast.success('Folder details retrieved successfully');
       }
     } catch (error) {
       console.error('Error in handleExtractButton:', error);
-      return toast.error('An unexpected error occurred', {
-        theme: 'colored',
-        autoClose: 2000,
-        position: 'top-right'
-      });
+      return toast.error('An unexpected error occurred');
     }
   };
 

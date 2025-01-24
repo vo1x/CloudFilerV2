@@ -4,7 +4,7 @@ import useFileSize from '../../hooks/useFileSize';
 import { MdMovie, MdFolder } from 'react-icons/md';
 
 import { SearchIcon, Link2 } from 'lucide-react';
-const Row = ({ rowData }) => {
+const Row = ({ rowData, movieString, seriesString }) => {
   const [copied, handleItemCopy] = useClipboard();
   const { getReadableFS } = useFileSize();
 
@@ -31,18 +31,32 @@ const Row = ({ rowData }) => {
             <MdMovie size={24} color="#F28B82" />
           )}
 
-          <div className=" overflow-hidden text-ellipsis whitespace-nowrap text-sm">
+          <div 
+          
+        onClick={(e) => handleItemCopy('File Name', e.target.innerHTML, true)}
+          className=" overflow-hidden text-ellipsis whitespace-nowrap text-sm cursor-pointer">
             {rowData.name}
           </div>
         </div>
       </td>
-      <td className="px-4 text-left text-neutral-400">{getReadableFS(rowData.size) ?? `--`}</td>
+      <td
+        className="cursor-pointer px-4 text-left text-neutral-400"
+        onClick={(e) => handleItemCopy('File Size', e.target.innerHTML, true)}
+      >
+        {getReadableFS(rowData.size) ?? `--`}
+      </td>
       <td className="px-4 py-3 text-left">
         <div className="flex justify-start space-x-2">
-          <Button className="border-yellow-500 text-yellow-500  hover:bg-yellow-500 hover:bg-opacity-25">
+          <Button
+            onClick={() => handleItemCopy('Movie Code', movieString, true)}
+            className="border-yellow-500 text-yellow-500  hover:bg-yellow-500 hover:bg-opacity-25"
+          >
             Movie
           </Button>
-          <Button className="border-teal-500 text-teal-500  hover:bg-teal-500 hover:bg-opacity-25">
+          <Button
+            onClick={() => handleItemCopy('Series Code', seriesString, true)}
+            className="border-teal-500 text-teal-500  hover:bg-teal-500 hover:bg-opacity-25"
+          >
             Series
           </Button>
         </div>
@@ -56,8 +70,8 @@ const Row = ({ rowData }) => {
           <span>Find</span>
         </Button>
         <Button
-          onClick={() => handleItemCopy('Download Link', rowData.webContentLink, false)}
-          className={`flex items-center gap-2 ${copied ? 'border-green-500 text-green-500 hover:bg-green-500' : 'border-blue-500 text-blue-500 hover:bg-blue-500'} hover:bg-opacity-25`}
+          onClick={() => handleItemCopy('Download Link', rowData.webContentLink, true)}
+          className={`flex items-center gap-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:bg-opacity-25`}
         >
           <Link2 size={20} />
           <span>Link</span>

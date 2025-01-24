@@ -1,7 +1,8 @@
 const Button = ({ children, className, onClick }) => {
   return (
-    <div onClick={onClick}>
+    <div>
       <button
+        onClick={onClick}
         style={{
           width: '5rem',
           borderRadius: '0.375rem ',
