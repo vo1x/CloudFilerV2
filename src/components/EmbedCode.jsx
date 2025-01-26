@@ -1,4 +1,4 @@
-import { FiCopy } from 'react-icons/fi';
+import { Copy } from 'lucide-react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { useCallback, useState } from 'react';
 import Toggle from 'react-toggle';
@@ -13,7 +13,7 @@ function EmbedCode(props) {
 
   const [copied, handleItemCopy] = useClipboard();
   const [customValue, setCustomValue] = useState(1);
-  const {movieStrings, episodeStrings, totalSz} = useContentStrings(props.data, customValue);
+  const { movieStrings, episodeStrings, totalSz } = useContentStrings(props.data, customValue);
 
   const filteredEpisodesList = props.data.filter(
     (episode) =>
@@ -110,9 +110,9 @@ function EmbedCode(props) {
               true
             )
           }
-          className="text-2xl text-white/50  hover:text-white"
+          className=" text-white/50  hover:text-white"
         >
-          <FiCopy></FiCopy>
+          <Copy></Copy>
         </button>
       </div>
     </div>

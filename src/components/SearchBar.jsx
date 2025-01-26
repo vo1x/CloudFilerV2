@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { SearchIcon, XIcon, Loader2 } from 'lucide-react';
+import { SearchIcon, X, Loader2 } from 'lucide-react';
 
 import { toast } from 'sonner';
 
@@ -51,10 +51,16 @@ function SearchBar({ extractResults, setExtractResults }) {
     }
   };
 
+  const handleClearButton = () => {
+    setInputValue('');
+    setPrevFolderID(null);
+    setExtractResults(null);
+  };
+
   return (
     <>
-      <div className="flex items-center">
-        <div className="flex w-80 items-center gap-2 rounded-full bg-[#282A2C] p-3 px-4  text-sm lg:w-[500px] lg:text-base">
+      <div className="flex items-center justify-center">
+        <div className="flex w-80 items-center  gap-2 rounded-full bg-[#282A2C] p-3 px-4  text-sm lg:w-[500px] lg:text-base">
           <button onClick={() => handleExtractButton(inputValue)} className="outline-none ">
             {isFetching ? (
               <Loader2 size={28} className="animate-spin" />
@@ -77,17 +83,14 @@ function SearchBar({ extractResults, setExtractResults }) {
               }
             }}
           />
-          {extractResults?.length > 0 ? (
-            <button
-              onClick={() => {
-                setExtractResults([]);
-                setInputValue('');
-                setPrevFolderID(undefined);
-              }}
+          {!isFetching && isFetched && inputValue !== '' && (
+            <div
+              className="cursor-pointer text-neutral-400 transition-all duration-150 hover:text-red-500"
+              onClick={handleClearButton}
             >
-              <XIcon className="text-red-400" size={26} />
-            </button>
-          ) : null}
+              <X size={28} />
+            </div>
+          )}
         </div>
       </div>
     </>

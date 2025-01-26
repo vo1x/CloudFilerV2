@@ -31,10 +31,10 @@ const Row = ({ rowData, movieString, seriesString }) => {
             <MdMovie size={24} color="#F28B82" />
           )}
 
-          <div 
-          
-        onClick={(e) => handleItemCopy('File Name', e.target.innerHTML, true)}
-          className=" overflow-hidden text-ellipsis whitespace-nowrap text-sm cursor-pointer">
+          <div
+            onClick={(e) => handleItemCopy('File Name', e.target.innerHTML, true)}
+            className=" cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap text-sm"
+          >
             {rowData.name}
           </div>
         </div>
